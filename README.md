@@ -1,4 +1,6 @@
+
 # Cryptic Quest 4.0 — Interactive Missions
+<img width="1584" height="818" alt="image" src="https://github.com/user-attachments/assets/1da6aa93-0d99-4a19-a76f-8105c1b64862" />
 
 Cryptic Quest is a dependency-free cryptography learning game for the web. Version 3.2 adds a local learning-intelligence layer on top of the campaign, Academy, Sandbox, Attack Lab, CTFs, and daily challenges.
 
