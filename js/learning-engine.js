@@ -41,10 +41,18 @@ function nowISO(){return new Date().toISOString();}
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 
 export function ensureLearningState(state){
+  if(!state || typeof state!=='object' || Array.isArray(state)) state={};
   state.questionHistory=Array.isArray(state.questionHistory)?state.questionHistory:[];
-  state.mistakes=state.mistakes&&typeof state.mistakes==='object'&&!Array.isArray(state.mistakes)?state.mistakes:{};
+  state.mistakes=state.mistakes&&typeof state.mistakes==='object'&&!Array.isArray(state.mistakes)
+    ? Object.fromEntries(Object.entries(state.mistakes).filter(([,record])=>record&&typeof record==='object'&&!Array.isArray(record)))
+    : {};
   state.sessionSeeds=Array.isArray(state.sessionSeeds)?state.sessionSeeds:[];
-  state.practiceStats=state.practiceStats&&typeof state.practiceStats==='object'?state.practiceStats:{quick:{runs:0,best:0},exam:{runs:0,best:0},endless:{runs:0,best:0},review:{runs:0,best:0}};
+  const storedStats=state.practiceStats&&typeof state.practiceStats==='object'&&!Array.isArray(state.practiceStats)?state.practiceStats:{};
+  state.practiceStats={};
+  for(const type of ['quick','exam','endless','review']){
+    const row=storedStats[type]&&typeof storedStats[type]==='object'&&!Array.isArray(storedStats[type])?storedStats[type]:{};
+    state.practiceStats[type]={...row,runs:Math.max(0,Number(row.runs)||0),best:clamp(Number(row.best)||0,0,100)};
+  }
   return state;
 }
 
