@@ -192,6 +192,15 @@ test('mistake notebook and spaced repetition schedule learning outcomes',()=>{
   recordPracticeRun(state,'quick',4,5);assert.equal(state.practiceStats.quick.runs,1);assert.equal(state.practiceStats.quick.best,80);
 });
 
+test('learning state repair tolerates malformed or partial saved progress',()=>{
+  const empty=ensureLearningState(null);assert.deepEqual(empty.questionHistory,[]);assert.deepEqual(empty.mistakes,{});
+  const state=ensureLearningState({mistakes:{broken:null,alsoBroken:[],valid:{nextReview:0,resolved:false}},practiceStats:{quick:{runs:'2',best:150},exam:null}});
+  assert.deepEqual(Object.keys(state.mistakes),['valid']);assert.equal(dueMistakes(state).length,1);
+  assert.equal(state.practiceStats.quick.runs,2);assert.equal(state.practiceStats.quick.best,100);
+  assert.deepEqual(state.practiceStats.exam,{runs:0,best:0});assert.deepEqual(state.practiceStats.review,{runs:0,best:0});
+  recordPracticeRun(state,'exam',1,2);assert.equal(state.practiceStats.exam.runs,1);assert.equal(state.practiceStats.exam.best,50);
+});
+
 test('skill dependency engine identifies weak prerequisites',()=>{
   const state=ensureLearningState({skills:{rsa:{attempts:6,correct:2},inverse:{attempts:5,correct:1},phi:{attempts:4,correct:3},modexp:{attempts:4,correct:3}}});
   const rows=skillDependencyInsights(state,skills);const rsa=rows.find(x=>x.id==='rsa');assert.ok(rsa.weakDependencies.includes('inverse'));const rec=recommendedFoundation(state,skills);assert.ok(rec);assert.ok(rec.target.id==='rsa'||rec.target.id==='inverse');assert.ok(rec.dependency.id);
