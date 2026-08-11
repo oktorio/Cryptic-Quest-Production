@@ -1,0 +1,1854 @@
+{
+  "version": "3.2.0",
+  "generated": "2026-08-08",
+  "questions": [
+    {
+      "prompt": "What information does frequency analysis exploit in a classical substitution cipher?",
+      "options": [
+        "Typical language symbol frequencies",
+        "The private RSA exponent",
+        "The AES round key",
+        "The certificate chain"
+      ],
+      "answer": 0,
+      "skill": "classical",
+      "explanation": "Natural languages have nonuniform letter and pattern frequencies that fixed substitutions tend to preserve.",
+      "hint": "Think about patterns in the language rather than the key format.",
+      "newbie": "Natural languages have nonuniform letter and pattern frequencies that fixed substitutions tend to preserve.",
+      "deep": "Natural languages have nonuniform letter and pattern frequencies that fixed substitutions tend to preserve.",
+      "id": "classical-001",
+      "topic": "classical",
+      "difficulty": 1
+    },
+    {
+      "prompt": "A substitution cipher maps every plaintext A to Q for the whole message. This is best described as…",
+      "options": [
+        "monoalphabetic substitution",
+        "transposition",
+        "one-time pad",
+        "hashing"
+      ],
+      "answer": 0,
+      "skill": "classical",
+      "explanation": "A fixed one-to-one replacement alphabet is monoalphabetic substitution.",
+      "hint": "Does the mapping change from one position to the next?",
+      "newbie": "A fixed one-to-one replacement alphabet is monoalphabetic substitution.",
+      "deep": "A fixed one-to-one replacement alphabet is monoalphabetic substitution.",
+      "id": "classical-002",
+      "topic": "classical",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why is Vigenère generally harder to analyze than Caesar by simple single-letter frequency alone?",
+      "options": [
+        "Its shift changes with the repeating key",
+        "It deletes vowels",
+        "It uses public keys",
+        "It makes ciphertext shorter"
+      ],
+      "answer": 0,
+      "skill": "classical",
+      "explanation": "A repeating keyword applies multiple Caesar-style alphabets, distributing plaintext statistics across positions.",
+      "hint": "Ask whether every position uses the same shift.",
+      "newbie": "A repeating keyword applies multiple Caesar-style alphabets, distributing plaintext statistics across positions.",
+      "deep": "A repeating keyword applies multiple Caesar-style alphabets, distributing plaintext statistics across positions.",
+      "id": "classical-003",
+      "topic": "classical",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Which observation most strongly suggests a transposition rather than substitution cipher?",
+      "options": [
+        "The same characters appear but their positions look scrambled",
+        "Every letter becomes a digit",
+        "A public certificate is attached",
+        "The message has a MAC"
+      ],
+      "answer": 0,
+      "skill": "classical",
+      "explanation": "Transposition rearranges positions while preserving the symbols themselves.",
+      "hint": "Focus on whether symbol identities changed.",
+      "newbie": "Transposition rearranges positions while preserving the symbols themselves.",
+      "deep": "Transposition rearranges positions while preserving the symbols themselves.",
+      "id": "classical-004",
+      "topic": "classical",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What does a Kasiski-style analysis look for in a repeating-key polyalphabetic cipher?",
+      "options": [
+        "Repeated ciphertext patterns that reveal likely key periods",
+        "RSA prime factors",
+        "AES round constants",
+        "Certificate expiration dates"
+      ],
+      "answer": 0,
+      "skill": "classical",
+      "explanation": "Repeated plaintext fragments encrypted under the same key alignment can create repeated ciphertext fragments; their spacings can suggest the repeating-key period.",
+      "hint": "Think about repetition and distance between repeated fragments.",
+      "id": "classical-005",
+      "topic": "classical",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why should a stream-cipher keystream be unpredictable to an attacker?",
+      "options": [
+        "Predictable keystream bits can reveal plaintext",
+        "It makes files compress better",
+        "It changes the certificate issuer",
+        "It reduces key length"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "If an attacker can predict the keystream, XOR no longer hides the plaintext effectively.",
+      "hint": "Remember C=P⊕K.",
+      "newbie": "If an attacker can predict the keystream, XOR no longer hides the plaintext effectively.",
+      "deep": "If an attacker can predict the keystream, XOR no longer hides the plaintext effectively.",
+      "id": "stream-001",
+      "topic": "stream",
+      "difficulty": 1
+    },
+    {
+      "prompt": "In a secure stream-cipher design, the long keystream is normally derived from…",
+      "options": [
+        "a secret key plus appropriate nonce/state",
+        "the plaintext only",
+        "the server hostname only",
+        "a public checksum"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "A compact secret key and nonrepeating public nonce/state are used to generate pseudorandom keystream material.",
+      "hint": "The keystream is usually generated, not manually stored.",
+      "newbie": "A compact secret key and nonrepeating public nonce/state are used to generate pseudorandom keystream material.",
+      "deep": "A compact secret key and nonrepeating public nonce/state are used to generate pseudorandom keystream material.",
+      "id": "stream-002",
+      "topic": "stream",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Which statement about a nonce is usually correct?",
+      "options": [
+        "It may be public but often must not repeat under the same key",
+        "It must always equal the key",
+        "It must be kept secret forever",
+        "It is another name for plaintext"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "Nonce secrecy is usually unnecessary; uniqueness or construction-specific rules matter.",
+      "hint": "Nonce means number used once.",
+      "newbie": "Nonce secrecy is usually unnecessary; uniqueness or construction-specific rules matter.",
+      "deep": "Nonce secrecy is usually unnecessary; uniqueness or construction-specific rules matter.",
+      "id": "stream-003",
+      "topic": "stream",
+      "difficulty": 3
+    },
+    {
+      "prompt": "What operation commonly combines a stream-cipher keystream with plaintext?",
+      "options": [
+        "XOR",
+        "integer division",
+        "matrix transpose only",
+        "certificate signing"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "XOR is efficient and self-inverting: P⊕K⊕K=P.",
+      "hint": "Think bit-by-bit combination.",
+      "newbie": "XOR is efficient and self-inverting: P⊕K⊕K=P.",
+      "deep": "XOR is efficient and self-inverting: P⊕K⊕K=P.",
+      "id": "stream-004",
+      "topic": "stream",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What should happen if a secure stream cipher uses the same key but a fresh valid nonce for a second message?",
+      "options": [
+        "It should produce a different keystream",
+        "It must produce the identical keystream",
+        "It reveals the private key",
+        "It disables XOR"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "A fresh nonce should cause a different keystream under nonce-based stream encryption, preventing keystream reuse.",
+      "hint": "The nonce exists to vary the encryption instance.",
+      "id": "stream-005",
+      "topic": "stream",
+      "difficulty": 1
+    },
+    {
+      "prompt": "If the same one-time-pad key encrypts two messages, which secret disappears when the ciphertexts are XORed?",
+      "options": [
+        "The reused pad",
+        "Both plaintexts",
+        "The alphabet",
+        "The message lengths"
+      ],
+      "answer": 0,
+      "skill": "xor",
+      "explanation": "The pad appears twice and cancels because K⊕K=0.",
+      "hint": "Write both ciphertext equations and XOR them.",
+      "newbie": "The pad appears twice and cancels because K⊕K=0.",
+      "deep": "The pad appears twice and cancels because K⊕K=0.",
+      "id": "otp-reuse-001",
+      "topic": "otp-reuse",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Which property must a true one-time-pad key have besides never being reused?",
+      "options": [
+        "It must be truly random and as long as the message",
+        "It must be a short memorable password",
+        "It must be public",
+        "It must be generated from the plaintext"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "Perfect secrecy requires a uniformly random secret pad at least as long as the plaintext and used once.",
+      "hint": "OTP requirements are stricter than ordinary stream ciphers.",
+      "newbie": "Perfect secrecy requires a uniformly random secret pad at least as long as the plaintext and used once.",
+      "deep": "Perfect secrecy requires a uniformly random secret pad at least as long as the plaintext and used once.",
+      "id": "otp-reuse-002",
+      "topic": "otp-reuse",
+      "difficulty": 2
+    },
+    {
+      "prompt": "An attacker knows P₁ and sees two ciphertexts encrypted with the same pad. What can the attacker derive?",
+      "options": [
+        "The reused pad segment and corresponding P₂ segment",
+        "The RSA factors",
+        "The AES S-box",
+        "Nothing at all"
+      ],
+      "answer": 0,
+      "skill": "xor",
+      "explanation": "From C₁=P₁⊕K, known P₁ reveals K for that segment, which then reveals P₂ from C₂.",
+      "hint": "XOR a known plaintext with its ciphertext.",
+      "newbie": "From C₁=P₁⊕K, known P₁ reveals K for that segment, which then reveals P₂ from C₂.",
+      "deep": "From C₁=P₁⊕K, known P₁ reveals K for that segment, which then reveals P₂ from C₂.",
+      "id": "otp-reuse-003",
+      "topic": "otp-reuse",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Which engineering rule prevents the classic two-time-pad failure?",
+      "options": [
+        "Never reuse the pad/keystream for another message",
+        "Hash the ciphertext twice",
+        "Make the message uppercase",
+        "Send both ciphertexts together"
+      ],
+      "answer": 0,
+      "skill": "stream",
+      "explanation": "The central failure is reuse of the same secret keystream material.",
+      "hint": "The weakness is reuse, not formatting.",
+      "newbie": "The central failure is reuse of the same secret keystream material.",
+      "deep": "The central failure is reuse of the same secret keystream material.",
+      "id": "otp-reuse-004",
+      "topic": "otp-reuse",
+      "difficulty": 4
+    },
+    {
+      "prompt": "Why can natural-language structure make two-time-pad attacks even worse after C₁⊕C₂ is known?",
+      "options": [
+        "Likely words and character patterns help infer both plaintexts",
+        "Natural language changes the key",
+        "XOR becomes nonreversible",
+        "The ciphertexts become hashes"
+      ],
+      "answer": 0,
+      "skill": "xor",
+      "explanation": "Once the pad cancels, language redundancy and guessed words can be used to recover portions of both plaintexts.",
+      "hint": "Human language contains predictable patterns.",
+      "id": "otp-reuse-005",
+      "topic": "otp-reuse",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What is the AES state for a 128-bit data block commonly visualized as?",
+      "options": [
+        "A 4×4 byte matrix",
+        "A 2×2 bit matrix",
+        "A certificate tree",
+        "A prime-number list"
+      ],
+      "answer": 0,
+      "skill": "aes",
+      "explanation": "AES represents a 16-byte block as a 4×4 state matrix during round transformations.",
+      "hint": "128 bits equals 16 bytes.",
+      "newbie": "AES represents a 16-byte block as a 4×4 state matrix during round transformations.",
+      "deep": "AES represents a 16-byte block as a 4×4 state matrix during round transformations.",
+      "id": "aes-001",
+      "topic": "aes",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What does ShiftRows contribute to AES?",
+      "options": [
+        "It moves bytes across columns to help diffusion",
+        "It substitutes bytes using the S-box",
+        "It selects the private key",
+        "It hashes the plaintext"
+      ],
+      "answer": 0,
+      "skill": "aes",
+      "explanation": "ShiftRows rotates rows by different offsets so bytes from one column move into others before MixColumns.",
+      "hint": "The operation changes byte positions.",
+      "newbie": "ShiftRows rotates rows by different offsets so bytes from one column move into others before MixColumns.",
+      "deep": "ShiftRows rotates rows by different offsets so bytes from one column move into others before MixColumns.",
+      "id": "aes-002",
+      "topic": "aes",
+      "difficulty": 2
+    },
+    {
+      "prompt": "What is the role of AddRoundKey in AES?",
+      "options": [
+        "XOR the state with round-key material",
+        "Sort each row alphabetically",
+        "Multiply the key by the plaintext integer",
+        "Generate a certificate"
+      ],
+      "answer": 0,
+      "skill": "aes",
+      "explanation": "AddRoundKey combines the state with key-schedule output using XOR.",
+      "hint": "AES uses XOR to inject key material.",
+      "newbie": "AddRoundKey combines the state with key-schedule output using XOR.",
+      "deep": "AddRoundKey combines the state with key-schedule output using XOR.",
+      "id": "aes-003",
+      "topic": "aes",
+      "difficulty": 3
+    },
+    {
+      "prompt": "AES-256 uses how many encryption rounds?",
+      "options": [
+        "14",
+        "10",
+        "12",
+        "16"
+      ],
+      "answer": 0,
+      "skill": "aes",
+      "explanation": "AES-256 uses 14 rounds; AES-192 uses 12 and AES-128 uses 10.",
+      "hint": "Round count increases with key size.",
+      "newbie": "AES-256 uses 14 rounds; AES-192 uses 12 and AES-128 uses 10.",
+      "deep": "AES-256 uses 14 rounds; AES-192 uses 12 and AES-128 uses 10.",
+      "id": "aes-004",
+      "topic": "aes",
+      "difficulty": 4
+    },
+    {
+      "prompt": "Which AES component is primarily responsible for nonlinearity?",
+      "options": [
+        "The S-box in SubBytes",
+        "ShiftRows only",
+        "The XOR operator by itself",
+        "The state layout"
+      ],
+      "answer": 0,
+      "skill": "aes",
+      "explanation": "SubBytes applies a nonlinear S-box, preventing AES from being merely a system of linear transformations.",
+      "hint": "Look for the substitution step.",
+      "id": "aes-005",
+      "topic": "aes",
+      "difficulty": 1
+    },
+    {
+      "prompt": "CBC encryption needs what extra value for the first block?",
+      "options": [
+        "An IV",
+        "A public RSA exponent",
+        "A password salt only",
+        "A certificate root"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "CBC combines the first plaintext block with an initialization vector before encryption.",
+      "hint": "Chaining needs an initial predecessor.",
+      "newbie": "CBC combines the first plaintext block with an initialization vector before encryption.",
+      "deep": "CBC combines the first plaintext block with an initialization vector before encryption.",
+      "id": "modes-001",
+      "topic": "modes",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What is especially dangerous about reusing a nonce/counter with the same key in CTR mode?",
+      "options": [
+        "It can reuse the keystream",
+        "It increases AES rounds",
+        "It makes hashes longer",
+        "It changes the public key"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "CTR generates keystream from nonce/counter values, so reuse can repeat keystream material.",
+      "hint": "CTR behaves like a stream cipher.",
+      "newbie": "CTR generates keystream from nonce/counter values, so reuse can repeat keystream material.",
+      "deep": "CTR generates keystream from nonce/counter values, so reuse can repeat keystream material.",
+      "id": "modes-002",
+      "topic": "modes",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Which modern property does GCM provide when used correctly?",
+      "options": [
+        "Authenticated encryption",
+        "Password hashing only",
+        "Public-key signatures only",
+        "Lossless compression"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "GCM provides confidentiality plus an authentication tag for integrity/authenticity.",
+      "hint": "Look for AEAD behavior.",
+      "newbie": "GCM provides confidentiality plus an authentication tag for integrity/authenticity.",
+      "deep": "GCM provides confidentiality plus an authentication tag for integrity/authenticity.",
+      "id": "modes-003",
+      "topic": "modes",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why is encryption without integrity risky in an active network?",
+      "options": [
+        "An attacker may modify ciphertext without reliable detection",
+        "The key becomes public automatically",
+        "The file cannot be decrypted",
+        "The ciphertext always shrinks"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "Confidentiality alone does not necessarily prevent malicious tampering.",
+      "hint": "Think about active modification rather than eavesdropping.",
+      "newbie": "Confidentiality alone does not necessarily prevent malicious tampering.",
+      "deep": "Confidentiality alone does not necessarily prevent malicious tampering.",
+      "id": "modes-004",
+      "topic": "modes",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What is associated data in an AEAD scheme?",
+      "options": [
+        "Data authenticated but not encrypted",
+        "A second secret key that must be hidden",
+        "Data compressed before encryption",
+        "The private signing key"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "AEAD can authenticate metadata such as headers without encrypting it, binding that data to the ciphertext tag.",
+      "hint": "It is protected for integrity even though it may remain visible.",
+      "id": "modes-005",
+      "topic": "modes",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why do two equal plaintext blocks become equal ciphertext blocks in ECB under one key?",
+      "options": [
+        "Each block is encrypted independently and deterministically",
+        "ECB generates a new random key per block",
+        "ECB hashes the entire message first",
+        "ECB signs each block"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "ECB applies the block cipher independently to each block under the same key.",
+      "hint": "No chaining value changes the input context.",
+      "newbie": "ECB applies the block cipher independently to each block under the same key.",
+      "deep": "ECB applies the block cipher independently to each block under the same key.",
+      "id": "ecb-001",
+      "topic": "ecb",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Which kind of data makes ECB pattern leakage especially easy to notice?",
+      "options": [
+        "Structured images or records with repeated blocks",
+        "A single random byte",
+        "A certificate serial number only",
+        "An empty file"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "Repeated structured regions make equality patterns visually or statistically obvious.",
+      "hint": "Think repeated blocks.",
+      "newbie": "Repeated structured regions make equality patterns visually or statistically obvious.",
+      "deep": "Repeated structured regions make equality patterns visually or statistically obvious.",
+      "id": "ecb-002",
+      "topic": "ecb",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Does padding ECB with a standard padding scheme solve its repeated-block leakage?",
+      "options": [
+        "No",
+        "Yes, completely",
+        "Only for RSA",
+        "Only if the key is public"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "Padding handles final block length; it does not add chaining or randomness to equal interior blocks.",
+      "hint": "Padding and mode security solve different problems.",
+      "newbie": "Padding handles final block length; it does not add chaining or randomness to equal interior blocks.",
+      "deep": "Padding handles final block length; it does not add chaining or randomness to equal interior blocks.",
+      "id": "ecb-003",
+      "topic": "ecb",
+      "difficulty": 3
+    },
+    {
+      "prompt": "For a new application needing confidentiality and tamper detection, which direction is preferable to ECB?",
+      "options": [
+        "A standardized AEAD construction",
+        "ECB with Base64",
+        "ECB with a shorter block size",
+        "Plaintext plus CRC only"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "A standardized AEAD scheme protects both confidentiality and integrity when used according to its nonce/key rules.",
+      "hint": "Prefer authenticated encryption.",
+      "newbie": "A standardized AEAD scheme protects both confidentiality and integrity when used according to its nonce/key rules.",
+      "deep": "A standardized AEAD scheme protects both confidentiality and integrity when used according to its nonce/key rules.",
+      "id": "ecb-004",
+      "topic": "ecb",
+      "difficulty": 4
+    },
+    {
+      "prompt": "If two database records have an identical 16-byte field and are encrypted with AES-ECB under one key, what can an observer learn?",
+      "options": [
+        "The ciphertext blocks for those equal fields are equal",
+        "The AES key directly",
+        "The plaintext value always",
+        "The database password"
+      ],
+      "answer": 0,
+      "skill": "modes",
+      "explanation": "ECB reveals equality of repeated plaintext blocks because identical block inputs map to identical ciphertext blocks under the same key.",
+      "hint": "ECB leaks equality patterns.",
+      "id": "ecb-005",
+      "topic": "ecb",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What must remain secret in an ordinary public/private keypair?",
+      "options": [
+        "The private key",
+        "The public key",
+        "The algorithm name",
+        "The certificate hostname"
+      ],
+      "answer": 0,
+      "skill": "asymmetric",
+      "explanation": "Public-key security assumes the private key is controlled by its owner while the public key may be distributed.",
+      "hint": "The names are literal.",
+      "newbie": "Public-key security assumes the private key is controlled by its owner while the public key may be distributed.",
+      "deep": "Public-key security assumes the private key is controlled by its owner while the public key may be distributed.",
+      "id": "asymmetric-001",
+      "topic": "asymmetric",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Which task is public-key cryptography particularly useful for compared with purely symmetric systems?",
+      "options": [
+        "Establishing trust or secrets without a pre-shared symmetric key",
+        "Making plaintext shorter",
+        "Eliminating all key management",
+        "Replacing all hashes"
+      ],
+      "answer": 0,
+      "skill": "asymmetric",
+      "explanation": "Public-key mechanisms help with key establishment, encryption to recipients, and digital signatures.",
+      "hint": "Think about the initial secret-sharing problem.",
+      "newbie": "Public-key mechanisms help with key establishment, encryption to recipients, and digital signatures.",
+      "deep": "Public-key mechanisms help with key establishment, encryption to recipients, and digital signatures.",
+      "id": "asymmetric-002",
+      "topic": "asymmetric",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why are public and private keys mathematically related but not interchangeable in practice?",
+      "options": [
+        "They have distinct algorithmic roles and the private value must stay secret",
+        "They are identical strings",
+        "Both must always be published",
+        "Neither is used for signatures"
+      ],
+      "answer": 0,
+      "skill": "asymmetric",
+      "explanation": "Keypairs are related by the cryptosystem, but operations and security assumptions assign different roles.",
+      "hint": "One is distributed; one is protected.",
+      "newbie": "Keypairs are related by the cryptosystem, but operations and security assumptions assign different roles.",
+      "deep": "Keypairs are related by the cryptosystem, but operations and security assumptions assign different roles.",
+      "id": "asymmetric-003",
+      "topic": "asymmetric",
+      "difficulty": 3
+    },
+    {
+      "prompt": "If Alice wants to verify a signature made by Bob, she normally needs…",
+      "options": [
+        "Bob's authentic public verification key",
+        "Bob's private key",
+        "Alice's private key",
+        "the plaintext password"
+      ],
+      "answer": 0,
+      "skill": "asymmetric",
+      "explanation": "Signature verification uses the signer’s public key, with confidence that it actually belongs to the signer.",
+      "hint": "Verification is a public-key operation.",
+      "newbie": "Signature verification uses the signer’s public key, with confidence that it actually belongs to the signer.",
+      "deep": "Signature verification uses the signer’s public key, with confidence that it actually belongs to the signer.",
+      "id": "asymmetric-004",
+      "topic": "asymmetric",
+      "difficulty": 4
+    },
+    {
+      "prompt": "Why is key authenticity important when distributing a public key?",
+      "options": [
+        "An attacker who substitutes their public key can redirect trust or confidentiality",
+        "Public keys must be secret",
+        "Public keys cannot be copied",
+        "Key authenticity makes encryption faster"
+      ],
+      "answer": 0,
+      "skill": "asymmetric",
+      "explanation": "A public key may be public, but users still need confidence that it belongs to the intended entity.",
+      "hint": "Public does not mean unauthenticated.",
+      "id": "asymmetric-005",
+      "topic": "asymmetric",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Preimage resistance means that given a digest h, it should be hard to…",
+      "options": [
+        "find an input x with H(x)=h",
+        "compute H(x)",
+        "compare two digests",
+        "store the digest"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Preimage resistance protects against reversing a chosen hash output to some matching input.",
+      "hint": "Start from the digest, not from a message.",
+      "newbie": "Preimage resistance protects against reversing a chosen hash output to some matching input.",
+      "deep": "Preimage resistance protects against reversing a chosen hash output to some matching input.",
+      "id": "hash-001",
+      "topic": "hash",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Second-preimage resistance starts with…",
+      "options": [
+        "one specific message and asks for a different message with the same digest",
+        "no messages and asks for any collision",
+        "a private encryption key",
+        "a nonce counter"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Second-preimage resistance fixes one input and asks for another distinct input with the same hash.",
+      "hint": "Differentiate it from arbitrary collision search.",
+      "newbie": "Second-preimage resistance fixes one input and asks for another distinct input with the same hash.",
+      "deep": "Second-preimage resistance fixes one input and asks for another distinct input with the same hash.",
+      "id": "hash-002",
+      "topic": "hash",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why is a cryptographic hash not the same as encryption?",
+      "options": [
+        "It is designed as a one-way fixed-length mapping with no decryption key",
+        "It always uses RSA internally",
+        "It preserves plaintext length",
+        "It requires a certificate"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Hashing is not meant to be reversed with a key; encryption is reversible for authorized parties.",
+      "hint": "Ask whether there is a decryption operation.",
+      "newbie": "Hashing is not meant to be reversed with a key; encryption is reversible for authorized parties.",
+      "deep": "Hashing is not meant to be reversed with a key; encryption is reversible for authorized parties.",
+      "id": "hash-003",
+      "topic": "hash",
+      "difficulty": 3
+    },
+    {
+      "prompt": "What should happen when the exact same message is hashed twice with the same ordinary hash algorithm?",
+      "options": [
+        "The same digest is produced",
+        "A different random digest is required",
+        "The plaintext is encrypted",
+        "The key is rotated"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Standard cryptographic hash functions are deterministic.",
+      "hint": "Same input, same algorithm.",
+      "newbie": "Standard cryptographic hash functions are deterministic.",
+      "deep": "Standard cryptographic hash functions are deterministic.",
+      "id": "hash-004",
+      "topic": "hash",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What is second-preimage resistance?",
+      "options": [
+        "Given one message, it should be hard to find a different message with the same hash",
+        "It should be hard to compute any hash",
+        "Every message must have a unique mathematical hash forever",
+        "A hash must hide its input length"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Second-preimage resistance starts from a specific message and asks for another distinct message with the same digest.",
+      "hint": "One message is fixed before the attack begins.",
+      "id": "hash-005",
+      "topic": "hash",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why are fast general-purpose hashes undesirable for password storage?",
+      "options": [
+        "They let attackers test guesses very quickly",
+        "They cannot output bits",
+        "They require certificates",
+        "They make passwords public immediately"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Password hashing should deliberately increase the cost of each offline guess.",
+      "hint": "Speed is good for file hashing but bad for password guessing resistance.",
+      "newbie": "Password hashing should deliberately increase the cost of each offline guess.",
+      "deep": "Password hashing should deliberately increase the cost of each offline guess.",
+      "id": "passwords-001",
+      "topic": "passwords",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Should a password salt normally be stored with the password hash?",
+      "options": [
+        "Yes",
+        "No, it must be memorized by the user",
+        "Only if it equals the password",
+        "Only for RSA passwords"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "A salt is normally public metadata stored alongside the derived password value.",
+      "hint": "A salt does not rely on secrecy.",
+      "newbie": "A salt is normally public metadata stored alongside the derived password value.",
+      "deep": "A salt is normally public metadata stored alongside the derived password value.",
+      "id": "passwords-002",
+      "topic": "passwords",
+      "difficulty": 2
+    },
+    {
+      "prompt": "What does a unique salt mainly defeat?",
+      "options": [
+        "Precomputed rainbow-table reuse and equality leakage",
+        "Online rate limits",
+        "Phishing attacks entirely",
+        "Certificate expiration"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Unique salts force attackers to recompute guesses per record and make equal passwords derive differently.",
+      "hint": "Think precomputation.",
+      "newbie": "Unique salts force attackers to recompute guesses per record and make equal passwords derive differently.",
+      "deep": "Unique salts force attackers to recompute guesses per record and make equal passwords derive differently.",
+      "id": "passwords-003",
+      "topic": "passwords",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Which additional defense helps against online password guessing but is separate from password hashing?",
+      "options": [
+        "Rate limiting / lockout controls",
+        "Removing salts",
+        "Using Base64",
+        "Publishing the password hash"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Online controls limit request attempts, while password KDFs mainly raise offline cracking cost.",
+      "hint": "Distinguish online and offline attackers.",
+      "newbie": "Online controls limit request attempts, while password KDFs mainly raise offline cracking cost.",
+      "deep": "Online controls limit request attempts, while password KDFs mainly raise offline cracking cost.",
+      "id": "passwords-004",
+      "topic": "passwords",
+      "difficulty": 4
+    },
+    {
+      "prompt": "Why is a memory-hard password hashing function useful?",
+      "options": [
+        "It raises the hardware cost of large-scale offline guessing",
+        "It makes passwords public",
+        "It removes the need for salts",
+        "It encrypts the entire database automatically"
+      ],
+      "answer": 0,
+      "skill": "hash",
+      "explanation": "Memory-hard password hashing increases the resource cost of parallel cracking on GPUs and specialized hardware.",
+      "hint": "The goal is to make each guess expensive.",
+      "id": "passwords-005",
+      "topic": "passwords",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Who commonly issues or derives user private keys in an IBE system?",
+      "options": [
+        "A trusted Private Key Generator / authority",
+        "Every random website visitor",
+        "The ciphertext recipient without any secret authority",
+        "The DNS resolver"
+      ],
+      "answer": 0,
+      "skill": "ibe",
+      "explanation": "IBE relies on a trusted authority with master secret material to derive private keys for identities.",
+      "hint": "There is a central trust role.",
+      "newbie": "IBE relies on a trusted authority with master secret material to derive private keys for identities.",
+      "deep": "IBE relies on a trusted authority with master secret material to derive private keys for identities.",
+      "id": "ibe-001",
+      "topic": "ibe",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What convenience can IBE provide compared with conventional certificate lookup?",
+      "options": [
+        "A known identity string can serve as the public identifier",
+        "It removes all trust assumptions",
+        "It makes private keys public",
+        "It eliminates key revocation"
+      ],
+      "answer": 0,
+      "skill": "ibe",
+      "explanation": "A sender can use an identity-like string without first retrieving a conventional public-key certificate.",
+      "hint": "Think email address as public identifier.",
+      "newbie": "A sender can use an identity-like string without first retrieving a conventional public-key certificate.",
+      "deep": "A sender can use an identity-like string without first retrieving a conventional public-key certificate.",
+      "id": "ibe-002",
+      "topic": "ibe",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why is compromise of the IBE master secret especially serious?",
+      "options": [
+        "It may enable derivation of many users’ private keys",
+        "It only changes one nonce",
+        "It makes AES use 9 rounds",
+        "It merely deletes public identities"
+      ],
+      "answer": 0,
+      "skill": "ibe",
+      "explanation": "The authority’s master secret is a high-value root of trust.",
+      "hint": "Centralized derivation creates centralized risk.",
+      "newbie": "The authority’s master secret is a high-value root of trust.",
+      "deep": "The authority’s master secret is a high-value root of trust.",
+      "id": "ibe-003",
+      "topic": "ibe",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Which statement best distinguishes IBE from ordinary PKI?",
+      "options": [
+        "IBE can derive public identifiers from identity strings rather than relying on individually certified public keys",
+        "IBE has no private keys",
+        "PKI never uses identities",
+        "IBE is a block-cipher mode"
+      ],
+      "answer": 0,
+      "skill": "ibe",
+      "explanation": "The public-key discovery model differs, while both still require trust and private-key protection.",
+      "hint": "Focus on how the public key/identifier is obtained.",
+      "newbie": "The public-key discovery model differs, while both still require trust and private-key protection.",
+      "deep": "The public-key discovery model differs, while both still require trust and private-key protection.",
+      "id": "ibe-004",
+      "topic": "ibe",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What is a central trust concern in many identity-based encryption systems?",
+      "options": [
+        "The private-key generator can derive user private keys",
+        "Users have no public identifiers",
+        "IBE cannot encrypt",
+        "All identities must be numeric"
+      ],
+      "answer": 0,
+      "skill": "ibe",
+      "explanation": "Because a trusted authority derives user private keys from master secret material, key escrow and authority compromise are important concerns.",
+      "hint": "Who creates the user private key?",
+      "id": "ibe-005",
+      "topic": "ibe",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Ciphertext-policy ABE is useful when access should depend on…",
+      "options": [
+        "a logical policy over user attributes",
+        "one fixed Caesar shift",
+        "a network packet checksum",
+        "the plaintext length"
+      ],
+      "answer": 0,
+      "skill": "abe",
+      "explanation": "CP-ABE lets ciphertext carry a policy that eligible attribute sets can satisfy.",
+      "hint": "Think role AND department OR clearance.",
+      "newbie": "CP-ABE lets ciphertext carry a policy that eligible attribute sets can satisfy.",
+      "deep": "CP-ABE lets ciphertext carry a policy that eligible attribute sets can satisfy.",
+      "id": "abe-001",
+      "topic": "abe",
+      "difficulty": 1
+    },
+    {
+      "prompt": "An example ABE attribute is…",
+      "options": [
+        "Department=Finance",
+        "AES round=10",
+        "Hash length=256",
+        "Nonce=public"
+      ],
+      "answer": 0,
+      "skill": "abe",
+      "explanation": "Attributes describe users, roles, organizations, clearances, projects, or similar policy facts.",
+      "hint": "Choose something meaningful for authorization.",
+      "newbie": "Attributes describe users, roles, organizations, clearances, projects, or similar policy facts.",
+      "deep": "Attributes describe users, roles, organizations, clearances, projects, or similar policy facts.",
+      "id": "abe-002",
+      "topic": "abe",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why can attribute revocation be difficult in ABE?",
+      "options": [
+        "Previously issued key material may reflect attributes that later change",
+        "AES has no inverse",
+        "Public keys cannot be stored",
+        "Hashes are random"
+      ],
+      "answer": 0,
+      "skill": "abe",
+      "explanation": "Attribute/key lifecycle must handle role changes, expiry, and revocation without leaving stale authorization.",
+      "hint": "What happens after someone leaves a department?",
+      "newbie": "Attribute/key lifecycle must handle role changes, expiry, and revocation without leaving stale authorization.",
+      "deep": "Attribute/key lifecycle must handle role changes, expiry, and revocation without leaving stale authorization.",
+      "id": "abe-003",
+      "topic": "abe",
+      "difficulty": 3
+    },
+    {
+      "prompt": "ABE is best viewed as primarily supporting…",
+      "options": [
+        "fine-grained cryptographic access control",
+        "password compression",
+        "network routing",
+        "certificate transparency"
+      ],
+      "answer": 0,
+      "skill": "abe",
+      "explanation": "ABE binds decryption capability to attributes and policies.",
+      "hint": "Think authorization expressed cryptographically.",
+      "newbie": "ABE binds decryption capability to attributes and policies.",
+      "deep": "ABE binds decryption capability to attributes and policies.",
+      "id": "abe-004",
+      "topic": "abe",
+      "difficulty": 4
+    },
+    {
+      "prompt": "Which example best fits ciphertext-policy attribute-based encryption?",
+      "options": [
+        "Encrypt so users with Department=Finance AND Role=Manager can decrypt",
+        "Encrypt only to one fixed email address",
+        "Hash a password with a salt",
+        "Use one AES key for everyone"
+      ],
+      "answer": 0,
+      "skill": "abe",
+      "explanation": "Ciphertext-policy ABE embeds an access policy in the ciphertext and users possess attribute-bearing keys.",
+      "hint": "Look for a policy made from attributes.",
+      "id": "abe-005",
+      "topic": "abe",
+      "difficulty": 1
+    },
+    {
+      "prompt": "A user proves identity successfully but still cannot open a classified file. Which control is denying access?",
+      "options": [
+        "Authorization",
+        "Authentication",
+        "Hashing",
+        "Compression"
+      ],
+      "answer": 0,
+      "skill": "access",
+      "explanation": "Authentication succeeded; authorization determines whether the authenticated identity has permission.",
+      "hint": "Identity proof and permission are separate stages.",
+      "newbie": "Authentication succeeded; authorization determines whether the authenticated identity has permission.",
+      "deep": "Authentication succeeded; authorization determines whether the authenticated identity has permission.",
+      "id": "access-001",
+      "topic": "access",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Which statement is correct?",
+      "options": [
+        "Authentication and authorization solve different questions",
+        "Authentication automatically grants every permission",
+        "Authorization proves a password is correct",
+        "Encryption replaces both completely"
+      ],
+      "answer": 0,
+      "skill": "access",
+      "explanation": "Authentication establishes identity; authorization determines permitted actions/resources.",
+      "hint": "Who are you versus what may you do?",
+      "newbie": "Authentication establishes identity; authorization determines permitted actions/resources.",
+      "deep": "Authentication establishes identity; authorization determines permitted actions/resources.",
+      "id": "access-002",
+      "topic": "access",
+      "difficulty": 2
+    },
+    {
+      "prompt": "A policy “Finance AND Manager” is an example of…",
+      "options": [
+        "an authorization condition",
+        "a hash collision",
+        "an RSA modulus",
+        "a nonce rule"
+      ],
+      "answer": 0,
+      "skill": "access",
+      "explanation": "The policy determines which attributes/roles are permitted.",
+      "hint": "It describes permissions, not identity proof.",
+      "newbie": "The policy determines which attributes/roles are permitted.",
+      "deep": "The policy determines which attributes/roles are permitted.",
+      "id": "access-003",
+      "topic": "access",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why does encryption alone not provide complete access management?",
+      "options": [
+        "Systems also need identity, policy, lifecycle, revocation, and enforcement decisions",
+        "Encryption automatically knows job roles",
+        "Ciphertext always reveals permissions",
+        "Keys never need management"
+      ],
+      "answer": 0,
+      "skill": "access",
+      "explanation": "Cryptography can enforce parts of access control, but operational identity and policy management remain necessary.",
+      "hint": "Think beyond the cipher itself.",
+      "newbie": "Cryptography can enforce parts of access control, but operational identity and policy management remain necessary.",
+      "deep": "Cryptography can enforce parts of access control, but operational identity and policy management remain necessary.",
+      "id": "access-004",
+      "topic": "access",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What is the difference between authentication and authorization?",
+      "options": [
+        "Authentication checks identity; authorization checks permitted actions",
+        "Authentication encrypts; authorization hashes",
+        "They are identical terms",
+        "Authorization always happens first"
+      ],
+      "answer": 0,
+      "skill": "access",
+      "explanation": "Authentication establishes who or what the entity is; authorization decides what that authenticated entity may do.",
+      "hint": "Identity first, permissions second.",
+      "id": "access-005",
+      "topic": "access",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Brute-force key search relies mainly on…",
+      "options": [
+        "trying candidate keys until one works",
+        "finding a certificate chain",
+        "reordering plaintext bytes",
+        "changing the user interface"
+      ],
+      "answer": 0,
+      "skill": "attacks",
+      "explanation": "Brute force exploits a keyspace small enough, weak enough, or cheap enough to search.",
+      "hint": "Think exhaustive search.",
+      "newbie": "Brute force exploits a keyspace small enough, weak enough, or cheap enough to search.",
+      "deep": "Brute force exploits a keyspace small enough, weak enough, or cheap enough to search.",
+      "id": "attacks-001",
+      "topic": "attacks",
+      "difficulty": 1
+    },
+    {
+      "prompt": "A chosen-plaintext attack assumes the attacker can…",
+      "options": [
+        "obtain ciphertexts for plaintexts they choose",
+        "read the private key directly",
+        "change AES to RSA",
+        "disable all randomness physically"
+      ],
+      "answer": 0,
+      "skill": "attacks",
+      "explanation": "Chosen-input models give the attacker an oracle-like ability to request encryption of selected messages.",
+      "hint": "The attack name describes what the attacker chooses.",
+      "newbie": "Chosen-input models give the attacker an oracle-like ability to request encryption of selected messages.",
+      "deep": "Chosen-input models give the attacker an oracle-like ability to request encryption of selected messages.",
+      "id": "attacks-002",
+      "topic": "attacks",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why are timing differences dangerous in cryptographic code?",
+      "options": [
+        "They can leak information correlated with secret-dependent operations",
+        "They always make ciphertext invalid",
+        "They shrink the nonce",
+        "They cause hash collisions automatically"
+      ],
+      "answer": 0,
+      "skill": "attacks",
+      "explanation": "Observed execution time can become a side channel if it depends on secrets.",
+      "hint": "Information can leak outside normal outputs.",
+      "newbie": "Observed execution time can become a side channel if it depends on secrets.",
+      "deep": "Observed execution time can become a side channel if it depends on secrets.",
+      "id": "attacks-003",
+      "topic": "attacks",
+      "difficulty": 3
+    },
+    {
+      "prompt": "What is a common goal of a replay defense?",
+      "options": [
+        "Verify freshness of messages",
+        "Make keys shorter",
+        "Make certificates self-signed",
+        "Remove authentication"
+      ],
+      "answer": 0,
+      "skill": "attacks",
+      "explanation": "Freshness mechanisms reject old valid messages resent outside their intended context.",
+      "hint": "Use nonces, counters, or protocol state.",
+      "newbie": "Freshness mechanisms reject old valid messages resent outside their intended context.",
+      "deep": "Freshness mechanisms reject old valid messages resent outside their intended context.",
+      "id": "attacks-004",
+      "topic": "attacks",
+      "difficulty": 4
+    },
+    {
+      "prompt": "A brute-force attack against a cipher primarily depends on what?",
+      "options": [
+        "The effective keyspace and cost of testing candidates",
+        "The color of the ciphertext",
+        "The certificate hostname",
+        "The plaintext file extension"
+      ],
+      "answer": 0,
+      "skill": "attacks",
+      "explanation": "Exhaustive search becomes practical when the effective keyspace is too small or candidate testing is cheap.",
+      "hint": "Think number of possible keys.",
+      "id": "attacks-005",
+      "topic": "attacks",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why must cryptographic protocols define message ordering and context, not only algorithms?",
+      "options": [
+        "Correct primitives can still be misused or replayed in an unsafe protocol flow",
+        "AES refuses unordered bytes",
+        "RSA needs HTTP",
+        "Hashes need certificates"
+      ],
+      "answer": 0,
+      "skill": "protocols",
+      "explanation": "Security depends on how primitives are composed, authenticated, and bound to protocol state.",
+      "hint": "Strong parts can form a weak whole.",
+      "newbie": "Security depends on how primitives are composed, authenticated, and bound to protocol state.",
+      "deep": "Security depends on how primitives are composed, authenticated, and bound to protocol state.",
+      "id": "protocols-001",
+      "topic": "protocols",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What does domain separation help prevent?",
+      "options": [
+        "Reusing the same cryptographic value/function context ambiguously across different purposes",
+        "All network outages",
+        "Certificate expiry",
+        "Large key sizes"
+      ],
+      "answer": 0,
+      "skill": "protocols",
+      "explanation": "Distinct labels/contexts reduce cross-protocol or cross-purpose confusion.",
+      "hint": "Bind cryptographic computations to their purpose.",
+      "newbie": "Distinct labels/contexts reduce cross-protocol or cross-purpose confusion.",
+      "deep": "Distinct labels/contexts reduce cross-protocol or cross-purpose confusion.",
+      "id": "protocols-002",
+      "topic": "protocols",
+      "difficulty": 2
+    },
+    {
+      "prompt": "A protocol accepts a valid MAC from an earlier session as valid now. What property is missing?",
+      "options": [
+        "Freshness/session binding",
+        "Key length display",
+        "Compression",
+        "Public-key publication"
+      ],
+      "answer": 0,
+      "skill": "protocols",
+      "explanation": "Authentication without freshness can still permit replay across sessions.",
+      "hint": "A valid old message should not necessarily be valid now.",
+      "newbie": "Authentication without freshness can still permit replay across sessions.",
+      "deep": "Authentication without freshness can still permit replay across sessions.",
+      "id": "protocols-003",
+      "topic": "protocols",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why is version negotiation security-sensitive?",
+      "options": [
+        "Attackers may try to force obsolete weaker options",
+        "Newer versions always use shorter keys",
+        "Negotiation reveals private keys by definition",
+        "Version strings are hashes"
+      ],
+      "answer": 0,
+      "skill": "protocols",
+      "explanation": "Unauthenticated or permissive negotiation can enable downgrade attacks.",
+      "hint": "Think downgrade.",
+      "newbie": "Unauthenticated or permissive negotiation can enable downgrade attacks.",
+      "deep": "Unauthenticated or permissive negotiation can enable downgrade attacks.",
+      "id": "protocols-004",
+      "topic": "protocols",
+      "difficulty": 4
+    },
+    {
+      "prompt": "Why can a secure cryptographic primitive still be unsafe inside a protocol?",
+      "options": [
+        "The protocol may misuse nonces, authentication, ordering, or error handling",
+        "Secure primitives never work on networks",
+        "Protocols automatically reveal keys",
+        "Only hashes can be used in protocols"
+      ],
+      "answer": 0,
+      "skill": "protocols",
+      "explanation": "Security depends on composition and state-management rules, not only on the mathematical primitive.",
+      "hint": "Correct parts can be combined incorrectly.",
+      "id": "protocols-005",
+      "topic": "protocols",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What happens if a signed message is modified after signing?",
+      "options": [
+        "Signature verification should fail",
+        "The private key becomes public",
+        "The message becomes encrypted",
+        "The certificate root changes"
+      ],
+      "answer": 0,
+      "skill": "signatures",
+      "explanation": "A valid signature is bound to the signed message data, typically via a cryptographic hash.",
+      "hint": "Integrity is part of signature verification.",
+      "newbie": "A valid signature is bound to the signed message data, typically via a cryptographic hash.",
+      "deep": "A valid signature is bound to the signed message data, typically via a cryptographic hash.",
+      "id": "signatures-001",
+      "topic": "signatures",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Which key should a signer protect most carefully?",
+      "options": [
+        "The private signing key",
+        "The public verification key",
+        "The certificate serial number",
+        "The message hash output only"
+      ],
+      "answer": 0,
+      "skill": "signatures",
+      "explanation": "Anyone obtaining the signing private key may be able to forge signatures as that key holder.",
+      "hint": "Signing is the private operation.",
+      "newbie": "Anyone obtaining the signing private key may be able to forge signatures as that key holder.",
+      "deep": "Anyone obtaining the signing private key may be able to forge signatures as that key holder.",
+      "id": "signatures-002",
+      "topic": "signatures",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Does a digital signature normally hide the message contents?",
+      "options": [
+        "No",
+        "Yes, always",
+        "Only if the signature is Base64",
+        "Only with SHA-256"
+      ],
+      "answer": 0,
+      "skill": "signatures",
+      "explanation": "Signatures provide authenticity/integrity evidence, not confidentiality by themselves.",
+      "hint": "Signing and encryption are distinct.",
+      "newbie": "Signatures provide authenticity/integrity evidence, not confidentiality by themselves.",
+      "deep": "Signatures provide authenticity/integrity evidence, not confidentiality by themselves.",
+      "id": "signatures-003",
+      "topic": "signatures",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why is signer public-key authenticity important?",
+      "options": [
+        "Otherwise an attacker could substitute a different verification key",
+        "Public keys must remain secret",
+        "Hash outputs cannot be compared",
+        "AES requires it"
+      ],
+      "answer": 0,
+      "skill": "signatures",
+      "explanation": "Verification only proves possession of the private key corresponding to the public key used; identity binding must also be trusted.",
+      "hint": "Ask how you know whose public key it is.",
+      "newbie": "Verification only proves possession of the private key corresponding to the public key used; identity binding must also be trusted.",
+      "deep": "Verification only proves possession of the private key corresponding to the public key used; identity binding must also be trusted.",
+      "id": "signatures-004",
+      "topic": "signatures",
+      "difficulty": 4
+    },
+    {
+      "prompt": "When verifying a digital signature, which key is normally used?",
+      "options": [
+        "The signer’s public verification key",
+        "The verifier’s private key",
+        "The signer’s password",
+        "The AES session key"
+      ],
+      "answer": 0,
+      "skill": "signatures",
+      "explanation": "The signer uses a private signing key; others verify using the corresponding public key.",
+      "hint": "Verification is designed to be public.",
+      "id": "signatures-005",
+      "topic": "signatures",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What is the leaf certificate in a typical server certificate chain?",
+      "options": [
+        "The certificate issued for the server/end entity",
+        "The trusted root CA certificate",
+        "The user password",
+        "The AES session key"
+      ],
+      "answer": 0,
+      "skill": "pki",
+      "explanation": "The leaf/end-entity certificate identifies the server and is validated through intermediates to a trust anchor.",
+      "hint": "It is at the end closest to the website.",
+      "newbie": "The leaf/end-entity certificate identifies the server and is validated through intermediates to a trust anchor.",
+      "deep": "The leaf/end-entity certificate identifies the server and is validated through intermediates to a trust anchor.",
+      "id": "pki-001",
+      "topic": "pki",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What is an intermediate CA certificate used for?",
+      "options": [
+        "To link a leaf certificate toward a trusted root without using the root directly for every issuance",
+        "To encrypt every TLS record",
+        "To store user passwords",
+        "To generate AES S-boxes"
+      ],
+      "answer": 0,
+      "skill": "pki",
+      "explanation": "Intermediate CAs form delegated certification paths between roots and end entities.",
+      "hint": "Think delegation of signing authority.",
+      "newbie": "Intermediate CAs form delegated certification paths between roots and end entities.",
+      "deep": "Intermediate CAs form delegated certification paths between roots and end entities.",
+      "id": "pki-002",
+      "topic": "pki",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Which check matters in addition to validating certificate signatures?",
+      "options": [
+        "Validity dates and intended hostname/name",
+        "Whether the page has images",
+        "The CSS theme",
+        "The file extension"
+      ],
+      "answer": 0,
+      "skill": "pki",
+      "explanation": "A correctly signed certificate can still be expired or issued for the wrong identity.",
+      "hint": "Chain signatures are not the only checks.",
+      "newbie": "A correctly signed certificate can still be expired or issued for the wrong identity.",
+      "deep": "A correctly signed certificate can still be expired or issued for the wrong identity.",
+      "id": "pki-003",
+      "topic": "pki",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why are root CA certificates treated differently by clients?",
+      "options": [
+        "They are configured as trust anchors",
+        "They contain private server keys",
+        "They use no signatures at all",
+        "They are always downloaded from the website"
+      ],
+      "answer": 0,
+      "skill": "pki",
+      "explanation": "Trust must start somewhere; clients/OSes maintain root trust stores.",
+      "hint": "Where does the chain terminate?",
+      "newbie": "Trust must start somewhere; clients/OSes maintain root trust stores.",
+      "deep": "Trust must start somewhere; clients/OSes maintain root trust stores.",
+      "id": "pki-004",
+      "topic": "pki",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What is a trust anchor in PKI?",
+      "options": [
+        "A root or other explicitly trusted certificate/key used to begin validation",
+        "The server’s session cookie",
+        "An AES IV",
+        "A password salt"
+      ],
+      "answer": 0,
+      "skill": "pki",
+      "explanation": "Certificate-path validation terminates at a trust anchor configured as trusted by the relying party.",
+      "hint": "Where does the chain of trust ultimately stop?",
+      "id": "pki-005",
+      "topic": "pki",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What does certificate validation contribute to a TLS connection?",
+      "options": [
+        "Authentication of the intended peer/server identity",
+        "Compression of HTTP data",
+        "Password hashing for every user",
+        "Removal of all symmetric keys"
+      ],
+      "answer": 0,
+      "skill": "tls",
+      "explanation": "Certificate validation helps bind the handshake to the intended authenticated server identity.",
+      "hint": "Encryption without identity can still allow MITM.",
+      "newbie": "Certificate validation helps bind the handshake to the intended authenticated server identity.",
+      "deep": "Certificate validation helps bind the handshake to the intended authenticated server identity.",
+      "id": "tls-001",
+      "topic": "tls",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What protects application records after a modern TLS handshake establishes session keys?",
+      "options": [
+        "Symmetric authenticated encryption",
+        "The server certificate alone",
+        "A Caesar cipher",
+        "Plain SHA-1 only"
+      ],
+      "answer": 0,
+      "skill": "tls",
+      "explanation": "Modern TLS derives symmetric traffic keys and protects records with authenticated encryption.",
+      "hint": "Public-key operations are not used for every byte of application data.",
+      "newbie": "Modern TLS derives symmetric traffic keys and protects records with authenticated encryption.",
+      "deep": "Modern TLS derives symmetric traffic keys and protects records with authenticated encryption.",
+      "id": "tls-002",
+      "topic": "tls",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Why are ephemeral key-exchange values useful for forward secrecy?",
+      "options": [
+        "Past session secrets need not be recoverable from a later long-term key compromise",
+        "They make certificates permanent",
+        "They remove randomness",
+        "They reuse one secret forever"
+      ],
+      "answer": 0,
+      "skill": "tls",
+      "explanation": "Fresh ephemeral secrets can isolate historical sessions from later compromise of long-term authentication keys.",
+      "hint": "Think recorded traffic and future key theft.",
+      "newbie": "Fresh ephemeral secrets can isolate historical sessions from later compromise of long-term authentication keys.",
+      "deep": "Fresh ephemeral secrets can isolate historical sessions from later compromise of long-term authentication keys.",
+      "id": "tls-003",
+      "topic": "tls",
+      "difficulty": 3
+    },
+    {
+      "prompt": "What is one purpose of the TLS handshake transcript authentication?",
+      "options": [
+        "Bind negotiated parameters and handshake messages so tampering is detected",
+        "Make the web page smaller",
+        "Replace DNS entirely",
+        "Store passwords"
+      ],
+      "answer": 0,
+      "skill": "tls",
+      "explanation": "Authenticating the transcript helps prevent undetected modification of negotiated security context.",
+      "hint": "Negotiation itself must be protected.",
+      "newbie": "Authenticating the transcript helps prevent undetected modification of negotiated security context.",
+      "deep": "Authenticating the transcript helps prevent undetected modification of negotiated security context.",
+      "id": "tls-004",
+      "topic": "tls",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What is the main purpose of the TLS handshake before protected application data flows?",
+      "options": [
+        "Negotiate parameters, authenticate as required, and establish shared traffic secrets",
+        "Compress every web page",
+        "Create user passwords",
+        "Replace DNS"
+      ],
+      "answer": 0,
+      "skill": "tls",
+      "explanation": "The TLS handshake establishes cryptographic parameters and traffic secrets and authenticates peers according to the selected mode.",
+      "hint": "It prepares the secure channel.",
+      "id": "tls-005",
+      "topic": "tls",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Grover’s algorithm is most associated with what broad effect on symmetric brute-force search?",
+      "options": [
+        "A quadratic search speedup",
+        "Instant factorization",
+        "Eliminating all hashes",
+        "Making certificates unnecessary"
+      ],
+      "answer": 0,
+      "skill": "pqc",
+      "explanation": "Grover gives a quadratic speedup for unstructured search, changing symmetric security margins rather than completely breaking them.",
+      "hint": "Contrast Grover with Shor.",
+      "newbie": "Grover gives a quadratic speedup for unstructured search, changing symmetric security margins rather than completely breaking them.",
+      "deep": "Grover gives a quadratic speedup for unstructured search, changing symmetric security margins rather than completely breaking them.",
+      "id": "pqc-001",
+      "topic": "pqc",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why can RSA be threatened by sufficiently capable quantum computers?",
+      "options": [
+        "Shor’s algorithm can solve integer factorization efficiently in the relevant model",
+        "Quantum computers reveal passwords by reading RAM remotely",
+        "AES uses primes",
+        "RSA has no keys"
+      ],
+      "answer": 0,
+      "skill": "pqc",
+      "explanation": "RSA security relies on factorization being hard for classical attackers; Shor changes that assumption.",
+      "hint": "Focus on the mathematical hard problem.",
+      "newbie": "RSA security relies on factorization being hard for classical attackers; Shor changes that assumption.",
+      "deep": "RSA security relies on factorization being hard for classical attackers; Shor changes that assumption.",
+      "id": "pqc-002",
+      "topic": "pqc",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Which family is also directly threatened by Shor’s algorithm?",
+      "options": [
+        "Traditional discrete-log systems such as DH and ECC",
+        "AES-GCM only",
+        "Password salts",
+        "Base64"
+      ],
+      "answer": 0,
+      "skill": "pqc",
+      "explanation": "Shor also solves discrete logarithms, affecting classical DH and elliptic-curve systems.",
+      "hint": "Factorization is not the only public-key problem affected.",
+      "newbie": "Shor also solves discrete logarithms, affecting classical DH and elliptic-curve systems.",
+      "deep": "Shor also solves discrete logarithms, affecting classical DH and elliptic-curve systems.",
+      "id": "pqc-003",
+      "topic": "pqc",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why should organizations care about PQ migration before a cryptographically relevant quantum computer exists?",
+      "options": [
+        "Migration takes years and long-lived ciphertext may be harvested now",
+        "PQC requires quantum hardware in every laptop",
+        "All classical crypto already fails today",
+        "Certificates expire every hour"
+      ],
+      "answer": 0,
+      "skill": "pqc",
+      "explanation": "Long deployment cycles and harvest-now-decrypt-later risk justify early inventory and planning.",
+      "hint": "Consider data lifetime and migration lead time.",
+      "newbie": "Long deployment cycles and harvest-now-decrypt-later risk justify early inventory and planning.",
+      "deep": "Long deployment cycles and harvest-now-decrypt-later risk justify early inventory and planning.",
+      "id": "pqc-004",
+      "topic": "pqc",
+      "difficulty": 4
+    },
+    {
+      "prompt": "How does Grover’s algorithm affect symmetric-key security conceptually?",
+      "options": [
+        "It gives a quadratic search speedup, motivating larger symmetric security margins",
+        "It instantly breaks AES regardless of key size",
+        "It factors RSA moduli only",
+        "It has no cryptographic relevance"
+      ],
+      "answer": 0,
+      "skill": "pqc",
+      "explanation": "Grover-style search reduces the generic brute-force exponent roughly by half, so symmetric key sizes can be adjusted to retain margins.",
+      "hint": "Its effect is different from Shor’s algorithm.",
+      "id": "pqc-005",
+      "topic": "pqc",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What does KEM decapsulation produce for the legitimate recipient?",
+      "options": [
+        "Shared secret key material",
+        "The sender’s private key",
+        "The plaintext file directly in all designs",
+        "A password salt"
+      ],
+      "answer": 0,
+      "skill": "kem",
+      "explanation": "The recipient decapsulates a KEM ciphertext to recover the same shared secret that the sender established.",
+      "hint": "KEM output feeds symmetric cryptography.",
+      "newbie": "The recipient decapsulates a KEM ciphertext to recover the same shared secret that the sender established.",
+      "deep": "The recipient decapsulates a KEM ciphertext to recover the same shared secret that the sender established.",
+      "id": "kem-001",
+      "topic": "kem",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why are KEMs commonly paired with symmetric AEAD?",
+      "options": [
+        "KEM establishes a secret; AEAD efficiently protects the actual data",
+        "AEAD factors RSA moduli",
+        "KEM replaces all encryption",
+        "Both are password hashes"
+      ],
+      "answer": 0,
+      "skill": "kem",
+      "explanation": "This is a hybrid design: asymmetric key establishment plus efficient authenticated symmetric encryption.",
+      "hint": "Separate key establishment from bulk data protection.",
+      "newbie": "This is a hybrid design: asymmetric key establishment plus efficient authenticated symmetric encryption.",
+      "deep": "This is a hybrid design: asymmetric key establishment plus efficient authenticated symmetric encryption.",
+      "id": "kem-002",
+      "topic": "kem",
+      "difficulty": 2
+    },
+    {
+      "prompt": "A KEM ciphertext is best thought of as…",
+      "options": [
+        "Encapsulated information enabling the recipient to derive shared key material",
+        "A certificate revocation list",
+        "The entire plaintext message necessarily",
+        "A human password"
+      ],
+      "answer": 0,
+      "skill": "kem",
+      "explanation": "The KEM ciphertext transports encapsulation data, not typically the application payload itself.",
+      "hint": "KEM means key encapsulation.",
+      "newbie": "The KEM ciphertext transports encapsulation data, not typically the application payload itself.",
+      "deep": "The KEM ciphertext transports encapsulation data, not typically the application payload itself.",
+      "id": "kem-003",
+      "topic": "kem",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why should hybrid classical+PQC composition follow a standardized design?",
+      "options": [
+        "Naive composition can introduce subtle security or interoperability flaws",
+        "Any two algorithms automatically become secure",
+        "Standards make keys shorter only",
+        "PQC has no parameters"
+      ],
+      "answer": 0,
+      "skill": "kem",
+      "explanation": "Combining cryptographic mechanisms safely requires carefully analyzed composition and encoding.",
+      "hint": "Two secure parts are not automatically secure when combined.",
+      "newbie": "Combining cryptographic mechanisms safely requires carefully analyzed composition and encoding.",
+      "deep": "Combining cryptographic mechanisms safely requires carefully analyzed composition and encoding.",
+      "id": "kem-004",
+      "topic": "kem",
+      "difficulty": 4
+    },
+    {
+      "prompt": "In a KEM-based hybrid encryption design, what is normally encrypted with the derived shared secret?",
+      "options": [
+        "The bulk application data using a symmetric AEAD scheme",
+        "The recipient’s private key",
+        "The KEM public key itself",
+        "The root certificate"
+      ],
+      "answer": 0,
+      "skill": "kem",
+      "explanation": "The KEM establishes shared key material; a symmetric authenticated cipher then protects the actual payload efficiently.",
+      "hint": "KEM establishes a key rather than carrying the entire message.",
+      "id": "kem-005",
+      "topic": "kem",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Which systems should generally receive higher PQ migration priority?",
+      "options": [
+        "Systems protecting long-lived sensitive data with vulnerable public-key algorithms",
+        "Public marketing pages with no secrets",
+        "Offline calculators with no cryptography",
+        "Temporary UI themes"
+      ],
+      "answer": 0,
+      "skill": "migration",
+      "explanation": "Priority should reflect exposure, data confidentiality lifetime, dependency, and algorithm vulnerability.",
+      "hint": "Consider how long the secret must remain secret.",
+      "newbie": "Priority should reflect exposure, data confidentiality lifetime, dependency, and algorithm vulnerability.",
+      "deep": "Priority should reflect exposure, data confidentiality lifetime, dependency, and algorithm vulnerability.",
+      "id": "migration-001",
+      "topic": "migration",
+      "difficulty": 1
+    },
+    {
+      "prompt": "What does a cryptographic inventory record?",
+      "options": [
+        "Where algorithms, protocols, keys, libraries, certificates, and dependencies are used",
+        "Only employee names",
+        "Only CPU serial numbers",
+        "Only web colors"
+      ],
+      "answer": 0,
+      "skill": "migration",
+      "explanation": "Inventory creates visibility needed to plan deprecation and replacement.",
+      "hint": "You cannot migrate what you cannot locate.",
+      "newbie": "Inventory creates visibility needed to plan deprecation and replacement.",
+      "deep": "Inventory creates visibility needed to plan deprecation and replacement.",
+      "id": "migration-002",
+      "topic": "migration",
+      "difficulty": 2
+    },
+    {
+      "prompt": "What is crypto-agility during migration?",
+      "options": [
+        "The ability to replace algorithms and parameters with controlled impact",
+        "Changing keys randomly every second",
+        "Using every cipher at once",
+        "Avoiding documentation"
+      ],
+      "answer": 0,
+      "skill": "migration",
+      "explanation": "Crypto-agility is an architectural and governance capability for controlled cryptographic change.",
+      "hint": "Think replaceability.",
+      "newbie": "Crypto-agility is an architectural and governance capability for controlled cryptographic change.",
+      "deep": "Crypto-agility is an architectural and governance capability for controlled cryptographic change.",
+      "id": "migration-003",
+      "topic": "migration",
+      "difficulty": 3
+    },
+    {
+      "prompt": "Why is data lifetime relevant to “harvest now, decrypt later”?",
+      "options": [
+        "Captured ciphertext may still be valuable when future decryption becomes feasible",
+        "Short files use fewer AES rounds",
+        "Certificates become private over time",
+        "Hashes grow with age"
+      ],
+      "answer": 0,
+      "skill": "migration",
+      "explanation": "Attackers may store encrypted traffic now and attack it later if the information remains valuable.",
+      "hint": "Compare confidentiality lifetime with migration/quantum timelines.",
+      "newbie": "Attackers may store encrypted traffic now and attack it later if the information remains valuable.",
+      "deep": "Attackers may store encrypted traffic now and attack it later if the information remains valuable.",
+      "id": "migration-004",
+      "topic": "migration",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What does crypto-agility mean?",
+      "options": [
+        "The ability to identify and replace cryptographic algorithms or parameters without redesigning the whole system",
+        "Changing passwords every minute",
+        "Using as many algorithms as possible simultaneously",
+        "Avoiding cryptography in software"
+      ],
+      "answer": 0,
+      "skill": "migration",
+      "explanation": "Crypto-agility is the architectural ability to migrate algorithms, keys, parameters, and protocols as requirements or threats change.",
+      "hint": "Think replaceability and lifecycle management.",
+      "id": "migration-005",
+      "topic": "migration",
+      "difficulty": 1
+    },
+    {
+      "prompt": "In a Diffie–Hellman MITM, Mallory can succeed by…",
+      "options": [
+        "establishing one shared secret with Alice and a different one with Bob",
+        "factoring every prime immediately",
+        "guessing the plaintext length only",
+        "changing the AES S-box"
+      ],
+      "answer": 0,
+      "skill": "mitm",
+      "explanation": "Without authentication, Mallory can relay and replace public DH values to create two separate secure-looking channels.",
+      "hint": "The endpoints agree with Mallory, not each other.",
+      "newbie": "Without authentication, Mallory can relay and replace public DH values to create two separate secure-looking channels.",
+      "deep": "Without authentication, Mallory can relay and replace public DH values to create two separate secure-looking channels.",
+      "id": "mitm-001",
+      "topic": "mitm",
+      "difficulty": 1
+    },
+    {
+      "prompt": "Why does making the DH generator g secret not solve MITM?",
+      "options": [
+        "MITM is an authentication problem, not secrecy of standard public parameters",
+        "g is the private key",
+        "Secret g automatically signs messages",
+        "MITM only attacks hashes"
+      ],
+      "answer": 0,
+      "skill": "mitm",
+      "explanation": "DH parameters can be public; what matters is authenticating the exchanged values/peers.",
+      "hint": "Protect identity binding, not public math constants.",
+      "newbie": "DH parameters can be public; what matters is authenticating the exchanged values/peers.",
+      "deep": "DH parameters can be public; what matters is authenticating the exchanged values/peers.",
+      "id": "mitm-002",
+      "topic": "mitm",
+      "difficulty": 2
+    },
+    {
+      "prompt": "Which mechanism can bind ephemeral DH values to an authenticated identity?",
+      "options": [
+        "Digital signatures over the handshake/transcript",
+        "Base64 encoding",
+        "A public checksum with no key",
+        "Longer plaintext"
+      ],
+      "answer": 0,
+      "skill": "mitm",
+      "explanation": "Signatures or equivalent authenticated mechanisms can bind key exchange to the intended peer.",
+      "hint": "Think authenticated key exchange.",
+      "newbie": "Signatures or equivalent authenticated mechanisms can bind key exchange to the intended peer.",
+      "deep": "Signatures or equivalent authenticated mechanisms can bind key exchange to the intended peer.",
+      "id": "mitm-003",
+      "topic": "mitm",
+      "difficulty": 3
+    },
+    {
+      "prompt": "What does a successful authenticated key exchange give that plain DH lacks?",
+      "options": [
+        "Confidence about the peer associated with the established secret",
+        "A shorter ciphertext",
+        "No need for randomness",
+        "An automatically public private key"
+      ],
+      "answer": 0,
+      "skill": "mitm",
+      "explanation": "Authentication prevents an active attacker from silently substituting its own key exchange.",
+      "hint": "Identity is the missing property.",
+      "newbie": "Authentication prevents an active attacker from silently substituting its own key exchange.",
+      "deep": "Authentication prevents an active attacker from silently substituting its own key exchange.",
+      "id": "mitm-004",
+      "topic": "mitm",
+      "difficulty": 4
+    },
+    {
+      "prompt": "What does transcript authentication protect in an authenticated key exchange?",
+      "options": [
+        "It binds the exchanged values and negotiation to the intended peers",
+        "It makes the public parameters secret",
+        "It replaces encryption with hashing",
+        "It prevents all denial-of-service attacks"
+      ],
+      "answer": 0,
+      "skill": "mitm",
+      "explanation": "Authenticating the handshake transcript prevents an attacker from silently substituting key-exchange values or negotiation data.",
+      "hint": "Bind what was exchanged to who exchanged it.",
+      "id": "mitm-005",
+      "topic": "mitm",
+      "difficulty": 1
+    }
+  ]
+}

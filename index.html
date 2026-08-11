@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#160722">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="Cryptic Quest is a free interactive cryptography adventure with story missions, visual laboratories, attack simulations, and CTF challenges.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self';">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cryptic Quest">
+  <title>Cryptic Quest — Cryptography Operations Simulator</title>
+  <link rel="manifest" href="manifest.webmanifest?v=4.0.0-interactive">
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=4.0.0-interactive">
+  <script type="module" src="js/app.js?v=4.0.0-interactive"></script>
+</head>
+<body data-release="4.0.0-interactive">
+  <a class="skip-link" href="#app">Skip to content</a>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" data-view-link="home" aria-label="Cryptic Quest home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><path d="M15 22v-5a9 9 0 0 1 18 0v5"/><rect x="10" y="21" width="28" height="21" rx="6"/><circle cx="24" cy="31" r="3"/><path d="M24 34v4"/></svg>
+      </span>
+      <span>
+        <strong>Cryptic Quest</strong>
+        <small>Interactive Crypto Adventure</small>
+      </span>
+      <span class="release-pill" aria-label="release version">v4.0 interactive</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="home" type="button"><span>⌂</span><em>Home</em></button>
+      <button class="nav-btn" data-view="campaign" type="button"><span>🛰</span><em>Campaign</em></button>
+      <button class="nav-btn" data-view="academy" type="button"><span>📚</span><em>Academy</em></button>
+      <button class="nav-btn" data-view="sandbox" type="button"><span>🧪</span><em>Sandbox</em></button>
+      <button class="nav-btn" data-view="attack" type="button"><span>⚠</span><em>Attack Lab</em></button>
+      <button class="nav-btn" data-view="training" type="button"><span>🧠</span><em>Training</em></button>
+      <button class="nav-btn" data-view="challenges" type="button"><span>⚑</span><em>Challenges</em></button>
+      <button class="nav-btn" data-view="guide" type="button"><span>▦</span><em>Guide</em></button>
+    </nav>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="installBtn" type="button" aria-label="Install Cryptic Quest" title="Install app" hidden>⇩</button>
+      <button class="icon-btn" id="soundToggle" type="button" aria-label="Toggle sound" title="Toggle sound">🔊</button>
+      <button class="profile-chip" id="profileButton" type="button" aria-label="Open profile and settings">
+        <span class="avatar">CQ</span>
+        <span><strong id="rankName">Recruit</strong><small><span id="xpTop">0</span> XP</small></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <section id="homeView" class="view active" aria-labelledby="heroTitle">
+      <div class="ops-hero">
+        <article class="ops-intro glass-panel">
+          <div class="eyebrow"><span class="pulse-dot"></span> Interactive learning / simulation / challenge</div>
+          <h1 id="heroTitle">Run your own <span>Crypto Operations Center</span></h1>
+          <p>Learn cryptography as if you are inside a live operations room: trace attacks, build ciphers, decode messages, forge toy keys, experiment in safe sandboxes, and clear progressively harder missions.</p>
+          <div class="hero-actions">
+            <button class="primary-btn" id="continueBtn" type="button">Launch Operations <span>→</span></button>
+            <button class="secondary-btn" data-go="campaign" type="button">Open Campaign Map</button>
+            <button class="secondary-btn" data-go="sandbox" type="button">Use Sandbox</button>
+          </div>
+          <div class="ops-strip" aria-label="Key highlights">
+            <span>5 interactive mission mechanics</span>
+            <span>36 campaign missions</span>
+            <span>Spaced review + mistake notebook</span>
+            <span>Offline ready PWA</span>
+          </div>
+        </article>
+
+        <article class="ops-map glass-panel" aria-label="Cryptographic network map">
+          <div class="map-topline">
+            <div>
+              <span class="eyebrow">Network overview</span>
+              <h2>World access graph</h2>
+            </div>
+            <button class="text-btn" data-go="campaign" type="button">Expand full map →</button>
+          </div>
+          <div class="map-shell">
+            <div class="map-ring ring-one"></div>
+            <div class="map-ring ring-two"></div>
+            <div class="map-ring ring-three"></div>
+            <div class="map-center">
+              <span class="center-kicker">Core node</span>
+              <strong>CRYPTEX</strong>
+              <small>Training network online</small>
+            </div>
+            <div class="world-preview-grid" id="worldPreview"></div>
+          </div>
+        </article>
+      </div>
+
+      <section class="dashboard-section" aria-labelledby="commandTitle">
+        <div class="section-heading">
+          <div><span class="eyebrow">Operator status</span><h2 id="commandTitle">Command Dashboard</h2></div>
+          <button class="text-btn" id="smartPracticeBtn" type="button">Train weakest skill →</button>
+        </div>
+        <div class="metrics-grid">
+          <article class="metric-card"><span class="metric-icon">✦</span><div><small>Total XP</small><strong id="xpMetric">0</strong><span id="rankProgressText">Build your first 500 XP</span></div></article>
+          <article class="metric-card"><span class="metric-icon">◎</span><div><small>Missions cleared</small><strong id="completedMetric">0/36</strong><span id="completionText">Start your first operation</span></div></article>
+          <article class="metric-card"><span class="metric-icon">🔥</span><div><small>Daily streak</small><strong id="dailyStreakMetric">0</strong><span id="dailyStatusText">Today's challenge awaits</span></div></article>
+          <article class="metric-card"><span class="metric-icon">◇</span><div><small>Measured mastery</small><strong id="masteryMetric">0%</strong><span>Across the skills you have practiced</span></div></article>
+        </div>
+      </section>
+
+      <section class="dashboard-section ops-dashboard-panels">
+        <div>
+          <div class="section-heading compact"><div><span class="eyebrow">Recommended mission</span><h2>Next operation</h2></div></div>
+          <div id="recommendedMission"></div>
+        </div>
+        <div>
+          <div class="section-heading compact"><div><span class="eyebrow">Live challenge</span><h2>Daily transmission</h2></div></div>
+          <div id="dailyPreview"></div>
+        </div>
+        <div>
+          <div class="section-heading compact"><div><span class="eyebrow">Progress rewards</span><h2>Achievements</h2></div></div>
+          <div class="achievement-grid" id="achievementPreview"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="campaignView" class="view" aria-labelledby="campaignTitle">
+      <div class="page-heading">
+        <div><span class="eyebrow">Story campaign</span><h1 id="campaignTitle">Operations Network</h1><p>Progress from simple ciphers to modern trust systems. Each world contains reconnaissance, an operation, and a boss encounter.</p></div>
+        <div class="campaign-score"><small>Campaign completion</small><strong id="campaignMastery">0%</strong><div class="progress-track"><span id="campaignBar"></span></div></div>
+      </div>
+      <div class="campaign-toolbar glass-panel">
+        <label>World filter<select id="worldFilter"><option value="all">All worlds</option></select></label>
+        <label>Difficulty<select id="campaignDifficulty"><option value="explorer">Explorer</option><option value="analyst">Analyst</option><option value="cryptographer">Cryptographer</option><option value="nightmare">Nightmare / CTF</option></select></label>
+        <button class="secondary-btn" id="adaptiveMissionBtn" type="button">Adaptive practice</button>
+      </div>
+      <div class="campaign-map" id="campaignMap"></div>
+    </section>
+
+    <section id="academyView" class="view" aria-labelledby="academyTitle">
+      <div class="page-heading">
+        <div><span class="eyebrow">Guided learning</span><h1 id="academyTitle">Crypto Academy</h1><p>Switch between beginner intuition and deeper technical explanations, then jump directly into a related lab or mission.</p></div>
+        <label class="search-box"><span>⌕</span><input id="academySearch" type="search" placeholder="Search AES, inverse, TLS, quantum…"></label>
+      </div>
+      <div class="mode-toggle" role="group" aria-label="Explanation depth">
+        <button class="toggle-btn active" data-academy-depth="newbie" type="button">Explain like I'm new</button>
+        <button class="toggle-btn" data-academy-depth="deep" type="button">Technical depth</button>
+      </div>
+      <div class="academy-grid" id="academyGrid"></div>
+    </section>
+
+    <section id="sandboxView" class="view" aria-labelledby="sandboxTitle">
+      <div class="page-heading"><div><span class="eyebrow">Free experimentation</span><h1 id="sandboxTitle">Crypto Sandbox</h1><p>Change parameters freely and inspect intermediate transformations. The sandbox is intentionally separated from graded missions.</p></div></div>
+      <div class="lab-layout">
+        <aside class="lab-sidebar" aria-label="Sandbox tools" id="sandboxTabs">
+          <button class="lab-tab active" data-sandbox="caesar" type="button"><span>↻</span><div><strong>Cipher Playground</strong><small>Caesar, Vigenère, Affine, Rail Fence</small></div></button>
+          <button class="lab-tab" data-sandbox="xor" type="button"><span>⊕</span><div><strong>XOR Studio</strong><small>Bits, hex & reused keystream</small></div></button>
+          <button class="lab-tab" data-sandbox="number" type="button"><span>≡</span><div><strong>Number Visualizer</strong><small>Clock, GCD, inverse, exponentiation</small></div></button>
+          <button class="lab-tab" data-sandbox="dh" type="button"><span>⇄</span><div><strong>Diffie–Hellman</strong><small>Public values & shared secret</small></div></button>
+          <button class="lab-tab" data-sandbox="rsa" type="button"><span>φ</span><div><strong>RSA Forge</strong><small>Build a toy keypair step by step</small></div></button>
+          <button class="lab-tab" data-sandbox="hash" type="button"><span>#</span><div><strong>Hash Observatory</strong><small>SHA-256 avalanche effect</small></div></button>
+          <button class="lab-tab" data-sandbox="aes" type="button"><span>▦</span><div><strong>AES Visualizer</strong><small>Transform a 4×4 state</small></div></button>
+        </aside>
+        <div class="lab-stage glass-panel" id="sandboxStage" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="attackView" class="view" aria-labelledby="attackTitle">
+      <div class="page-heading"><div><span class="eyebrow">Failure simulations</span><h1 id="attackTitle">Attack Laboratory</h1><p>See how correct primitives fail when modes, nonces, authentication, or implementation assumptions are wrong.</p></div></div>
+      <div class="attack-tabs" role="tablist" aria-label="Attack simulations">
+        <button class="filter-btn active" data-attack="ecb" type="button">ECB Pattern Leak</button>
+        <button class="filter-btn" data-attack="otp" type="button">Reused Keystream</button>
+        <button class="filter-btn" data-attack="mitm" type="button">MITM Relay</button>
+        <button class="filter-btn" data-attack="avalanche" type="button">Avalanche Effect</button>
+      </div>
+      <div class="attack-stage" id="attackStage" aria-live="polite"></div>
+    </section>
+
+
+    <section id="trainingView" class="view" aria-labelledby="trainingTitle">
+      <div class="page-heading">
+        <div><span class="eyebrow">Learning intelligence</span><h1 id="trainingTitle">Training Center</h1><p>Practice with anti-repeat memory, spaced reviews, a mistake notebook, reproducible session seeds, and prerequisite-aware skill diagnostics.</p></div>
+        <div class="training-due-pill"><small>Due now</small><strong id="trainingDueCount">0</strong></div>
+      </div>
+      <div class="training-metrics metrics-grid">
+        <article class="metric-card"><span class="metric-icon">↻</span><div><small>Recent question memory</small><strong id="recentQuestionCount">0</strong><span>Avoided across new sessions</span></div></article>
+        <article class="metric-card"><span class="metric-icon">!</span><div><small>Active mistakes</small><strong id="activeMistakeCount">0</strong><span>Items still being learned</span></div></article>
+        <article class="metric-card"><span class="metric-icon">⏱</span><div><small>Due reviews</small><strong id="dueReviewCount">0</strong><span>Spaced repetition queue</span></div></article>
+        <article class="metric-card"><span class="metric-icon">#</span><div><small>Question bank</small><strong id="questionBankCount">0</strong><span>Curated + generated exercises</span></div></article>
+      </div>
+
+      <section class="dashboard-section">
+        <div class="section-heading"><div><span class="eyebrow">Practice modes</span><h2>Choose a training run</h2></div></div>
+        <div class="practice-mode-grid">
+          <article class="practice-mode-card"><span class="practice-symbol">⚡</span><h3>Quick Practice</h3><p>Five varied questions with immediate explanations. Recent-question memory reduces repetition across sessions.</p><button class="primary-btn" id="startQuickPractice" type="button">Start 5 questions</button></article>
+          <article class="practice-mode-card"><span class="practice-symbol">▣</span><h3>Exam Mode</h3><p>Twenty questions with no hints and no correctness reveal until the final report.</p><button class="primary-btn" id="startExamPractice" type="button">Start exam</button></article>
+          <article class="practice-mode-card"><span class="practice-symbol">∞</span><h3>Endless Mode</h3><p>Keep solving unique questions. The run ends after three mistakes and expands its bank while you survive.</p><button class="primary-btn" id="startEndlessPractice" type="button">Start endless run</button></article>
+          <article class="practice-mode-card review-card"><span class="practice-symbol">🧠</span><h3>Spaced Review</h3><p>Revisit mistakes when they are due. Correct reviews move further apart; repeated mistakes return sooner.</p><button class="primary-btn" id="startDueReview" type="button">Review due items</button></article>
+        </div>
+      </section>
+
+      <section class="dashboard-section training-two-col">
+        <div>
+          <div class="section-heading compact"><div><span class="eyebrow">Mistake notebook</span><h2>What to fix next</h2></div></div>
+          <div id="mistakeNotebook" class="mistake-notebook"></div>
+        </div>
+        <div>
+          <div class="section-heading compact"><div><span class="eyebrow">Prerequisite intelligence</span><h2>Skill dependency map</h2></div></div>
+          <div id="skillDependencyPanel" class="skill-dependency-panel"></div>
+        </div>
+      </section>
+
+      <section class="dashboard-section seed-lab glass-panel">
+        <div>
+          <span class="eyebrow">Reproducible sessions</span>
+          <h2>Replay a session code</h2>
+          <p>Every campaign and practice run receives a CQ32 seed. Enter one here to reproduce the same generated question set for debugging, sharing, or retesting.</p>
+        </div>
+        <div class="seed-controls"><input id="seedReplayInput" autocomplete="off" spellcheck="false" placeholder="CQ32-M-... or CQ32-P-..."><button class="secondary-btn" id="replaySeedBtn" type="button">Reproduce session</button></div>
+        <div id="recentSeeds" class="recent-seeds"></div>
+      </section>
+    </section>
+
+    <section id="challengesView" class="view" aria-labelledby="challengesTitle">
+      <div class="page-heading"><div><span class="eyebrow">Test your instincts</span><h1 id="challengesTitle">Challenges</h1><p>Daily puzzles, crypto detective cases, historical failures, and escalating capture-the-flag tasks.</p></div></div>
+      <div class="challenge-tabs" role="tablist" aria-label="Challenge modes">
+        <button class="challenge-tab active" data-challenge="daily" type="button">Daily</button>
+        <button class="challenge-tab" data-challenge="ctf" type="button">CTF</button>
+        <button class="challenge-tab" data-challenge="detective" type="button">Detective</button>
+        <button class="challenge-tab" data-challenge="disasters" type="button">Crypto Disasters</button>
+      </div>
+      <div id="challengeStage"></div>
+    </section>
+
+    <section id="guideView" class="view" aria-labelledby="guideTitle">
+      <div class="page-heading">
+        <div><span class="eyebrow">Quick reference</span><h1 id="guideTitle">Cryptography Field Guide</h1><p>Search formulas, security properties, failure modes and modern cryptographic concepts.</p></div>
+        <label class="search-box"><span>⌕</span><input id="guideSearch" type="search" placeholder="Search concepts, formulas, attacks…"></label>
+      </div>
+      <div class="guide-grid" id="guideGrid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>Cryptic Quest</strong><span>Local-first cryptography learning game & simulation lab.</span></div>
+    <div><span>Version 4.0 Interactive Missions</span><span>No account</span><span>No analytics</span><span>No remote data</span><a href="PRIVACY.md">Privacy</a><a href="SECURITY.md">Security</a></div>
+  </footer>
+
+  <div class="modal-backdrop" id="missionModal" hidden>
+    <section class="mission-modal" role="dialog" aria-modal="true" aria-labelledby="missionModalTitle">
+      <header class="modal-header">
+        <div><span class="mission-kicker" id="missionKicker">Mission</span><h2 id="missionModalTitle">Challenge</h2></div>
+        <button class="icon-btn close-mission" type="button" aria-label="Close mission">×</button>
+      </header>
+      <div class="mission-statusbar">
+        <div><span id="questionCounter">Question 1 of 5</span><strong id="missionScore">0 XP</strong></div>
+        <div class="progress-track"><span id="missionProgressBar"></span></div>
+      </div>
+      <div class="mission-body" id="missionBody" aria-live="polite"></div>
+      <footer class="modal-footer">
+        <button class="secondary-btn" id="explainBtn" type="button">📖 Explain concept</button>
+        <button class="secondary-btn" id="hintBtn" type="button">💡 Hint</button>
+        <button class="primary-btn" id="submitMissionBtn" type="button">Check answer</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="profileModal" hidden>
+    <section class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+      <header class="modal-header"><div><span class="eyebrow">Local learner profile</span><h2 id="profileTitle">Progress & Settings</h2></div><button class="icon-btn close-profile" type="button" aria-label="Close profile">×</button></header>
+      <div id="profileContent"></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="onboardingModal" hidden>
+    <section class="onboarding-modal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+      <div class="onboarding-symbol" aria-hidden="true">⌬</div>
+      <span class="eyebrow">Welcome, operator</span>
+      <h2 id="onboardingTitle">How familiar are you with cryptography?</h2>
+      <p>Your choice only changes the default difficulty and explanation style. You can change it anytime.</p>
+      <div class="onboarding-options" id="onboardingOptions"></div>
+    </section>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+  <noscript><div class="noscript">Cryptic Quest requires JavaScript for interactive simulations. The project contains no external scripts or trackers.</div></noscript>
+</body>
+</html>

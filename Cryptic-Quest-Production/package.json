@@ -1,0 +1,14 @@
+{
+  "name": "cryptic-quest",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Dependency-free interactive cryptography adventure, visual laboratory and CTF learning platform.",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "node tests/test.mjs",
+    "check": "node --check js/app.js && node --check js/content.js && node --check js/crypto-utils.js && node --check sw.js && node tests/test.mjs"
+  },
+  "keywords": ["cryptography", "cybersecurity", "education", "game", "ctf", "rsa", "aes", "diffie-hellman", "pwa"],
+  "license": "MIT"
+}
