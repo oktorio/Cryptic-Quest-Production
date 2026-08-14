@@ -213,7 +213,7 @@ function randomHex(length=8){
 export function createSessionSeed({type='M',id='unknown',difficulty='explorer'}={}){
   const safeId=String(id).toUpperCase().replace(/[^A-Z0-9-]/g,'').slice(0,30)||'UNKNOWN';
   const diff=String(difficulty).toUpperCase().slice(0,3);
-  return `CQ32-${type}-${safeId}-${diff}-${randomHex(8)}`;
+  return `CQ40-${type}-${safeId}-${diff}-${randomHex(8)}`;
 }
 
 export function registerSessionSeed(state,seed){
@@ -228,13 +228,14 @@ export function registerSessionSeed(state,seed){
 export function parseSessionSeed(seed){
   const code=normalizeSeedCode(seed);
   const parts=code.split('-');
-  if(parts[0]!=='CQ32' || parts.length<5) return null;
+  if(!['CQ40','CQ32'].includes(parts[0]) || parts.length<5) return null;
+  const version=parts[0];
   const type=parts[1];
   const random=parts.pop();
   const diff=parts.pop();
   const id=parts.slice(2).join('-').toLowerCase();
   const difficultyMap={EXP:'explorer',ANA:'analyst',CRY:'cryptographer',NIG:'nightmare'};
-  return {code,type,id,difficulty:difficultyMap[diff]||'explorer',random};
+  return {code,version,type,id,difficulty:difficultyMap[diff]||'explorer',random};
 }
 
 export function recordPracticeRun(state,type,score,total){

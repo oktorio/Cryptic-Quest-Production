@@ -1,6 +1,6 @@
 {
   "name": "cryptic-quest",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "private": true,
   "description": "Dependency-free cryptography learning game with interactive mission mechanics, adaptive practice, spaced repetition, visual labs and CTF challenges.",
   "type": "module",
@@ -8,7 +8,8 @@
     "start": "python3 -m http.server 8317",
     "test": "node tests/test.mjs",
     "qa:questions": "node scripts/question-bank-qa.mjs",
-    "check": "node --check js/app.js && node --check js/content.js && node --check js/crypto-utils.js && node --check js/question-engine.js && node --check js/learning-engine.js && node --check js/interactive-missions.js && node --check sw.js && node scripts/question-bank-qa.mjs && node tests/test.mjs"
+    "test:version": "node tests/version-smoke.mjs",
+    "check": "node --check js/app.js && node --check js/content.js && node --check js/crypto-utils.js && node --check js/question-engine.js && node --check js/learning-engine.js && node --check js/interactive-missions.js && node --check sw.js && node scripts/question-bank-qa.mjs && node tests/test.mjs && node tests/version-smoke.mjs"
   },
   "keywords": [
     "cryptography",
