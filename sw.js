@@ -1,17 +1,17 @@
-const CACHE_NAME = 'cryptic-quest-v4-0-interactive-20260809';
+const CACHE_NAME = 'cryptic-quest-v4-0-2-mod-clock-20260814';
 const APP_SHELL = [
   './',
   './index.html',
-  './index.html?v=4.0.0-interactive',
-  './styles.css?v=4.0.0-interactive',
-  './js/app.js?v=4.0.0-interactive',
+  './index.html?v=4.0.2-hotfix',
+  './styles.css?v=4.0.2-hotfix',
+  './js/app.js?v=4.0.2-hotfix',
   './js/content.js',
   './js/crypto-utils.js',
   './js/question-engine.js',
   './js/learning-engine.js',
   './js/interactive-missions.js',
   './content/questions-v3.2.json',
-  './manifest.webmanifest?v=4.0.0-interactive',
+  './manifest.webmanifest?v=4.0.2-hotfix',
   './assets/icons/icon.svg',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',

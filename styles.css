@@ -796,3 +796,9 @@ code,.daily-code,.output-value,.ctf-card code{
 }
 .interactive-mission-card{border-color:rgba(0,245,255,.2)!important;box-shadow:0 18px 42px rgba(0,0,0,.24),inset 0 0 0 1px rgba(0,245,255,.035)!important}
 .interactive-badge{border-color:rgba(255,71,224,.28)!important;background:rgba(255,71,224,.09)!important;color:#ffc2f4!important;box-shadow:0 0 15px rgba(255,71,224,.08)}
+
+
+/* === 4.0.2 modular clock positioning hotfix === */
+.interactive-clock{--clock-node-radius:clamp(96px,30vw,136px)}
+.clock-node{--radius:var(--clock-node-radius)}
+@media(max-width:420px){.interactive-clock{--clock-node-radius:clamp(86px,29vw,102px)}}

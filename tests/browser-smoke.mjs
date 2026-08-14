@@ -31,6 +31,16 @@ try{
   assert.match(await page.title(),/Cryptic Quest/i);
   assert.equal(await page.locator('.brand strong').textContent(),'Cryptic Quest');
 
+  // Fresh browser profiles legitimately open onboarding. Complete the first option
+  // so the smoke test validates the app instead of being blocked by its welcome dialog.
+  const onboarding=page.locator('#onboardingModal');
+  if(await onboarding.isVisible()){
+    const firstOption=page.locator('#onboardingOptions button').first();
+    await firstOption.waitFor({state:'visible'});
+    await firstOption.click();
+    await onboarding.waitFor({state:'hidden'});
+  }
+
   await page.locator('button[data-view="campaign"]').click();
   await page.waitForSelector('#campaignView.active');
   assert.ok(await page.locator('#campaignMap').locator(':scope > *').count()>0,'campaign should render world content');
@@ -43,9 +53,39 @@ try{
   await page.waitForSelector('#sandboxView.active');
   await page.waitForFunction(()=>document.querySelector('#sandboxStage')?.textContent?.trim().length>0);
 
+  // 4.0.2 regression: modular-clock buttons must form a real dial and remain clickable.
+  await page.evaluate(async()=>{
+    const m=await import('./js/interactive-missions.js');
+    const q=m.createInteractiveChallenge({id:'numbers-1'},'CQ40-M-NUMBERS-1-EXP-HOTFIX','explorer');
+    const host=document.createElement('div');
+    host.id='clockHotfixFixture';
+    host.style.position='fixed';
+    host.style.inset='0';
+    host.style.zIndex='9999';
+    host.style.background='#090312';
+    host.innerHTML=m.renderInteractiveChallenge(q);
+    document.body.append(host);
+    m.bindInteractiveChallenge(q,host);
+  });
+  const nodes=page.locator('#clockHotfixFixture .clock-node');
+  const nodeCount=await nodes.count();
+  assert.ok(nodeCount>=7,`expected modular clock nodes, got ${nodeCount}`);
+  const centers=[];
+  for(let i=0;i<nodeCount;i++){
+    const box=await nodes.nth(i).boundingBox();
+    assert.ok(box,`clock node ${i} should have a bounding box`);
+    centers.push([Math.round(box.x+box.width/2),Math.round(box.y+box.height/2)]);
+  }
+  assert.equal(new Set(centers.map(([x,y])=>`${x},${y}`)).size,nodeCount,'modular clock nodes must not overlap');
+  const xs=centers.map(([x])=>x),ys=centers.map(([,y])=>y);
+  assert.ok(Math.max(...xs)-Math.min(...xs)>=140,'clock nodes should spread horizontally around the dial');
+  assert.ok(Math.max(...ys)-Math.min(...ys)>=140,'clock nodes should spread vertically around the dial');
+  await nodes.filter({hasText:'1'}).first().click();
+  assert.equal((await page.locator('#clockHotfixFixture #clockSelection').textContent())?.trim(),'1','clock node click should register the selected value');
+
   assert.deepEqual(pageErrors,[],`page errors: ${pageErrors.join('\n')}`);
   assert.deepEqual(consoleErrors,[],`console errors: ${consoleErrors.join('\n')}`);
-  console.log('✓ browser smoke: Home → Campaign → Training → Sandbox');
+  console.log('✓ browser smoke: onboarding → Campaign → Training → Sandbox + modular clock geometry/click');
 } finally {
   if(browser) await browser.close();
   server.kill('SIGTERM');

@@ -1,6 +1,6 @@
 {
   "name": "cryptic-quest",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "private": true,
   "description": "Dependency-free cryptography learning game with interactive mission mechanics, adaptive practice, spaced repetition, visual labs and CTF challenges.",
   "type": "module",

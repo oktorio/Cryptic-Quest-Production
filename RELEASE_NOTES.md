@@ -1,3 +1,10 @@
+# Cryptic Quest 4.0.2 — Modular Clock Hotfix
+
+- Fixes modular-clock number buttons collapsing near the center of the dial.
+- Uses a responsive length-based clock radius instead of a percentage transform radius.
+- Extends the existing Playwright browser smoke test to verify clock geometry and click handling.
+- Refreshes PWA cache/version metadata so the corrected CSS is fetched cleanly.
+
 # Cryptic Quest 4.0.1 — Repository & Reliability Cleanup
 
 Version 4.0.1 is a maintenance release focused on keeping the 4.0 interactive-mission foundation clean, reproducible, and safer to publish.
