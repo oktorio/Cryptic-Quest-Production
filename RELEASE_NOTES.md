@@ -1,44 +1,45 @@
-# Cryptic Quest 4.0.0 — Interactive Missions Milestone 1
+# Cryptic Quest 4.0.1 — Repository & Reliability Cleanup
 
-Version 4.0 begins the transition from a quiz-heavy learning application into a hands-on cryptography game. The existing 3.2 learning intelligence, cyberpunk visual theme, anti-repeat engine, Mistake Notebook, spaced repetition, seeded sessions, labs, campaign, and CTF content remain intact.
+Version 4.0.1 is a maintenance release focused on keeping the 4.0 interactive-mission foundation clean, reproducible, and safer to publish.
 
-## New interactive campaign mechanics
+## Repository cleanup
 
-Five campaign missions now replace one conventional question with a hands-on interaction while preserving the original mission length and XP balance.
+- Removed the duplicated nested `Cryptic-Quest-Production/` project tree.
+- The repository root is now the single canonical application source.
+- This avoids editing, testing, or deploying an outdated duplicate by mistake.
 
-- **Clockwork Arithmetic — Modular Clock:** click the correct landing position after applying a modular movement.
-- **Inside AES — Round Repair:** reorder SubBytes, ShiftRows, MixColumns, and AddRoundKey using drag-and-drop or accessible arrow controls.
-- **Shared Secret — Diffie–Hellman Console:** calculate Alice's public value, Bob's public value, and the shared secret in one exchange flow.
-- **RSA Forge — Key Forge:** calculate `n`, `φ(n)`, the private exponent `d`, and the ciphertext from supplied toy parameters.
-- **Chain of Trust — Certificate Path:** reorder Root CA, Intermediate CA, and Server/Leaf Certificate into the validation path.
+## Session-code migration
 
-Interactive missions are marked with **⚡ INTERACTIVE** in the campaign.
+- New reproducible sessions now use the `CQ40-...` prefix.
+- Existing `CQ32-...` session codes remain accepted for replay.
+- Added a dedicated version-compatibility smoke test so legacy replay support is regression-tested.
 
-## Learning integration
+## CI reliability
 
-Interactive challenges participate in the same learning system as conventional questions:
+The standard quality workflow still runs the full static, cryptographic, question-bank, anti-repeat, spaced-repetition, and interactive-mission regression suite.
 
-- skill mastery updates;
-- Mistake Notebook recording;
-- spaced repetition scheduling;
-- session seed reproducibility;
-- hint and explanation penalties;
-- mission accuracy and XP calculation.
+A second browser-smoke job now installs Chromium via Playwright and verifies that the real application can load and navigate through:
 
-The interactive challenge snapshot now preserves mechanic metadata and challenge parameters, so a missed interactive problem can be reconstructed by the review system.
+`Home → Campaign → Training → Sandbox`
 
-## Accessibility and mobile interaction
+The browser job also fails on uncaught page errors or browser console errors.
 
-Ordering mechanics support both drag-and-drop and explicit up/down buttons, so keyboard and touch users are not dependent on drag gestures. Interactive fields use large touch targets and responsive layouts. Modular clock positions are real buttons with visible focus states.
+## GitHub Pages
 
-## Validation
+The previous deployment workflow failed during `Configure GitHub Pages` because the repository Pages site had not yet been enabled at the repository-settings level.
 
-`npm run check` validates the entire legacy regression suite plus new tests for:
+The Pages workflow is now gated by the repository variable `ENABLE_PAGES_DEPLOY=true`. Until the one-time Pages setup is completed, deployment is skipped instead of producing a failed workflow run.
 
-- deterministic interactive challenge generation;
-- canonical answer grading;
-- supported interactive mission IDs;
-- persistence of interactive challenge metadata in the Mistake Notebook;
-- JavaScript syntax and PWA shell inclusion.
+See `PAGES_SETUP.md` for the setup steps.
 
-The local HTTP smoke check also confirms the entry page, interactive mission module, CSS, and external question bank are served successfully.
+## Interactive missions retained
+
+The five 4.0 interactive campaign mechanics remain unchanged:
+
+- Clockwork Arithmetic — clickable modular clock
+- Inside AES — AES round ordering
+- Shared Secret — Diffie–Hellman exchange
+- RSA Forge — toy RSA key construction
+- Chain of Trust — PKI certificate path ordering
+
+They remain integrated with mastery tracking, Mistake Notebook, spaced review, seeded replay, hints, explanations, and XP.
