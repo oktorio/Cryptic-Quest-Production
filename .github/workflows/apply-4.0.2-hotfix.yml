@@ -23,6 +23,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add styles.css package.json index.html sw.js .github/workflows/ci.yml tests/mod-clock-smoke.mjs RELEASE_NOTES.md
+          git add styles.css package.json index.html sw.js RELEASE_NOTES.md
           git commit -m "fix: repair modular clock positioning" || exit 0
           git push origin HEAD:hotfix/4.0.2-modular-clock
