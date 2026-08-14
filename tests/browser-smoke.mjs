@@ -31,6 +31,16 @@ try{
   assert.match(await page.title(),/Cryptic Quest/i);
   assert.equal(await page.locator('.brand strong').textContent(),'Cryptic Quest');
 
+  // Fresh browser profiles legitimately open onboarding. Complete the first option
+  // so the smoke test validates the app instead of being blocked by its welcome dialog.
+  const onboarding=page.locator('#onboardingModal');
+  if(await onboarding.isVisible()){
+    const firstOption=page.locator('#onboardingOptions button').first();
+    await firstOption.waitFor({state:'visible'});
+    await firstOption.click();
+    await onboarding.waitFor({state:'hidden'});
+  }
+
   await page.locator('button[data-view="campaign"]').click();
   await page.waitForSelector('#campaignView.active');
   assert.ok(await page.locator('#campaignMap').locator(':scope > *').count()>0,'campaign should render world content');
@@ -75,7 +85,7 @@ try{
 
   assert.deepEqual(pageErrors,[],`page errors: ${pageErrors.join('\n')}`);
   assert.deepEqual(consoleErrors,[],`console errors: ${consoleErrors.join('\n')}`);
-  console.log('✓ browser smoke: Home → Campaign → Training → Sandbox + modular clock geometry/click');
+  console.log('✓ browser smoke: onboarding → Campaign → Training → Sandbox + modular clock geometry/click');
 } finally {
   if(browser) await browser.close();
   server.kill('SIGTERM');
