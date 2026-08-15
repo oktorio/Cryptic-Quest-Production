@@ -1,0 +1,36 @@
+name: Apply 4.2 Mission Expansion
+
+on:
+  push:
+    branches: ["release/4.2-mission-expansion"]
+    paths:
+      - ".github/workflows/apply-4.2-mission-expansion.yml"
+      - "scripts/apply-4.2-mission-expansion.py"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 4.2 branch
+        uses: actions/checkout@v7
+        with:
+          ref: release/4.2-mission-expansion
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Apply 4.2 patch
+        run: python3 scripts/apply-4.2-mission-expansion.py
+      - name: Run static and regression checks
+        run: npm run check
+      - name: Commit 4.2 implementation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/mission-experience.js styles.css package.json index.html sw.js tests/test.mjs tests/browser-smoke.mjs README.md RELEASE_NOTES.md
+          git commit -m "feat: expand Mission Experience with RSA-CRT CBC AES and XOR" || exit 0
+          git push origin HEAD:release/4.2-mission-expansion
