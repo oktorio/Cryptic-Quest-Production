@@ -9,6 +9,7 @@ import {
 import { questionFingerprint,uniqueQuestions,selectUniqueStaticQuestions,generateUniqueQuestions,withSeededMathRandom,seededShuffle,normalizeSeedCode } from './question-engine.js';
 import { ensureLearningState,recentQuestionKeySet,recordLearningOutcome,dueMistakes,activeMistakes,nextReviewLabel,skillDependencyInsights,recommendedFoundation,createSessionSeed,registerSessionSeed,parseSessionSeed,recordPracticeRun,answerLabel } from './learning-engine.js';
 import { createInteractiveChallenge,renderInteractiveChallenge,bindInteractiveChallenge,getInteractiveValue,isInteractiveAnswerCorrect,hasInteractiveMission } from './interactive-missions.js';
+import { createMissionExperienceChallenge,renderMissionExperienceChallenge,bindMissionExperience,getMissionExperienceValue,isMissionExperienceAnswerCorrect,hasMissionExperience,missionExperienceProgressMessage } from './mission-experience.js';
 
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => {
@@ -235,8 +236,8 @@ function renderCampaign(){
 
 function missionCard(m){
   const unlocked=isMissionUnlocked(m); const complete=state.completed.includes(m.id); const best=state.missionScores[m.id]||0;
-  return `<article class="mission-card ${m.kind==='boss'?'boss':''} ${hasInteractiveMission(m.id)?'interactive-mission-card':''} ${complete?'complete':''} ${unlocked?'':'locked'}">
-    <header><span class="badge">${m.kind==='boss'?'⚠ BOSS':escapeHTML(m.label.toUpperCase())}</span>${hasInteractiveMission(m.id)?'<span class="badge interactive-badge">⚡ INTERACTIVE</span>':''}<span class="badge">${complete?'✓ CLEAR':`+${m.baseXp} XP`}</span></header>
+  return `<article class="mission-card ${m.kind==='boss'?'boss':''} ${(hasMissionExperience(m.id)||hasInteractiveMission(m.id))?'interactive-mission-card':''} ${complete?'complete':''} ${unlocked?'':'locked'}">
+    <header><span class="badge">${m.kind==='boss'?'⚠ BOSS':escapeHTML(m.label.toUpperCase())}</span>${hasMissionExperience(m.id)?'<span class="badge interactive-badge experience-badge">⚡ MISSION 2.0</span>':hasInteractiveMission(m.id)?'<span class="badge interactive-badge">⚡ INTERACTIVE</span>':''}<span class="badge">${complete?'✓ CLEAR':`+${m.baseXp} XP`}</span></header>
     <h3>${escapeHTML(m.title)}</h3><p>${escapeHTML(m.story)}</p>
     <div class="mission-footer"><small>${best?`Best: ${best} XP`:escapeHTML(m.objective)}</small><button class="${complete?'secondary-btn':'primary-btn'} launch-mission" type="button" data-id="${m.id}" ${unlocked?'':'disabled'}>${complete?'Replay':unlocked?'Launch':'Locked'}</button></div>
   </article>`;
@@ -566,14 +567,14 @@ function startMission(id,{seed=null}={}){
   registerSessionSeed(state,sessionSeed);
   currentMission=mission;
   let missionQuestions=buildMissionQuestions(mission,{seed:sessionSeed,avoidRecent:!suppliedSeed});
-  const interactiveChallenge=createInteractiveChallenge(mission,sessionSeed,state.difficulty);
+  const interactiveChallenge=createMissionExperienceChallenge(mission,sessionSeed,state.difficulty)||createInteractiveChallenge(mission,sessionSeed,state.difficulty);
   if(interactiveChallenge){
     // Replace one conventional question so mission length and XP weighting stay unchanged.
     missionQuestions=[interactiveChallenge,...missionQuestions.slice(0,Math.max(0,mission.questions-1))];
   }
   missionSession={kind:'mission',seed:sessionSeed,questions:missionQuestions,index:0,earned:0,correct:0,answered:false,selected:null,hintUsed:false,explainUsed:false,wasComplete:state.completed.includes(id),results:[]};
   saveState();
-  $('#missionKicker').textContent=`World ${mission.worldNumber} · ${mission.label}${mission.kind==='boss'?' · BOSS':''}${interactiveChallenge?' · INTERACTIVE':''}`;
+  $('#missionKicker').textContent=`World ${mission.worldNumber} · ${mission.label}${mission.kind==='boss'?' · BOSS':''}${interactiveChallenge?(interactiveChallenge.experience==='2.0'?' · MISSION 2.0':' · INTERACTIVE'):''}`;
   $('#missionModalTitle').textContent=mission.title;
   $('#missionModal').hidden=false; document.body.style.overflow='hidden';
   renderMissionQuestion();
@@ -618,7 +619,7 @@ function startPractice(type='quick',{seed=null,targetSkill=null,reviewKeys=null}
 function reproduceSessionFromSeed(){
   const input=$('#seedReplayInput');
   const parsed=parseSessionSeed(input?.value||'');
-  if(!parsed){ showToast('Invalid session code','Enter a CQ32 session code shown by Cryptic Quest.'); return; }
+  if(!parsed){ showToast('Invalid session code','Enter a CQ40 session code, or a legacy CQ32 code shown by an earlier release.'); return; }
   if(parsed.difficulty && difficulties[parsed.difficulty]){
     state.difficulty=parsed.difficulty;
     saveState();
@@ -669,7 +670,7 @@ function renderMissionQuestion(){
   if(q.type==='choice'){
     answerUI=`<div class="answer-options">${q.options.map((o,i)=>`<button class="answer-option" type="button" data-choice="${i}">${escapeHTML(o)}</button>`).join('')}</div>`;
   }else if(q.type==='interactive'){
-    answerUI=renderInteractiveChallenge(q);
+    answerUI=renderMissionExperienceChallenge(q)||renderInteractiveChallenge(q);
   }else{
     answerUI=`<label class="sr-only" for="missionAnswer">Your answer</label><input class="mission-input" id="missionAnswer" autocomplete="off" spellcheck="false" placeholder="Enter your answer">`;
   }
@@ -680,13 +681,13 @@ function renderMissionQuestion(){
     if(missionSession.answered) return;
     missionSession.selected=Number(btn.dataset.choice); $$('.answer-option','#missionBody').forEach(b=>b.classList.toggle('selected',b===btn));
   }));
-  if(q.type==='interactive') bindInteractiveChallenge(q,$('#missionBody'));
+  if(q.type==='interactive'){ if(q.experience==='2.0') bindMissionExperience(q,$('#missionBody')); else bindInteractiveChallenge(q,$('#missionBody')); }
   $('#missionAnswer')?.addEventListener('keydown',e=>{if(e.key==='Enter') submitMissionAnswer();});
-  setTimeout(()=>{ if(q.type==='interactive') $('#missionBody .interactive-input, #missionBody .clock-node, #missionBody .order-move')?.focus(); else $('#missionAnswer')?.focus(); },20);
+  setTimeout(()=>{ if(q.type==='interactive') $('#missionBody .interactive-input, #missionBody .clock-node, #missionBody .order-move, #missionBody .mission-step-verify')?.focus(); else $('#missionAnswer')?.focus(); },20);
 }
 
 function isQuestionCorrect(q,value){
-  if(q.type==='interactive') return isInteractiveAnswerCorrect(q,value);
+  if(q.type==='interactive') return q.experience==='2.0'?isMissionExperienceAnswerCorrect(q,value):isInteractiveAnswerCorrect(q,value);
   if(q.type==='choice') return Number(value)===Number(q.answer);
   const normalized=normalizeAnswer(value).replace(/\s*,\s*/g,',');
   const answers=[q.answer,...(q.accepted||[])].map(a=>normalizeAnswer(a).replace(/\s*,\s*/g,','));
@@ -700,8 +701,8 @@ function submitMissionAnswer(){
     if(missionSession.kind==='practice' && missionSession.practiceType==='endless' && missionSession.lives<=0) return finishPracticeSession();
     missionSession.index++; renderMissionQuestion(); return;
   }
-  const value=q.type==='choice'?missionSession.selected:q.type==='interactive'?getInteractiveValue(q,$('#missionBody')):$('#missionAnswer')?.value;
-  if(value===null || value===undefined || String(value).trim()===''){ showToast('Answer required','Choose or enter an answer before checking.'); return; }
+  const value=q.type==='choice'?missionSession.selected:q.type==='interactive'?(q.experience==='2.0'?getMissionExperienceValue(q,$('#missionBody')):getInteractiveValue(q,$('#missionBody'))):$('#missionAnswer')?.value;
+  if(value===null || value===undefined || String(value).trim()===''){ const detail=q.type==='interactive'&&q.experience==='2.0'?missionExperienceProgressMessage(q,$('#missionBody')):'Choose or enter an answer before checking.'; showToast(q.type==='interactive'?'Step incomplete':'Answer required',detail); return; }
   const correct=isQuestionCorrect(q,value); missionSession.answered=true;
   updateSkill(q.skill,correct);
   recordLearningOutcome(state,q,correct,{source:missionSession.kind==='practice'?missionSession.practiceType:'mission',seed:missionSession.seed});
@@ -731,7 +732,7 @@ function submitMissionAnswer(){
       }
     });
   }else if(q.type==='interactive'){
-    $$('#missionBody .interactive-input, #missionBody .clock-node, #missionBody .order-move').forEach(el=>el.disabled=true);
+    $$('#missionBody .interactive-input, #missionBody .clock-node, #missionBody .order-move, #missionBody .mission-step-verify').forEach(el=>el.disabled=true);
     $$('#missionBody .order-item').forEach(el=>el.setAttribute('draggable','false'));
     $('#missionBody .interactive-panel')?.classList.add(correct?'interactive-correct':'interactive-incorrect');
   }else $('#missionAnswer').disabled=true;
