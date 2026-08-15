@@ -1,3 +1,13 @@
+# Cryptic Quest 4.1 — Mission Experience 2.0
+
+- Adds a dedicated Mission Experience layer for deeper staged campaign mechanics.
+- Upgrades RSA Forge to four individually verified stages: n, φ(n), d, then ciphertext.
+- Upgrades Shared Secret to verify Alice/Bob public values before the shared secret unlocks.
+- Adds Exponent Reactor 2.0 with binary decomposition and a visible square-and-multiply trace.
+- Adds stage-specific feedback, lock/unlock progression, and "why this step matters" guidance.
+- Adds Node regression checks and Playwright browser tests for staged progression.
+- Bumps web/PWA cache metadata to 4.1.0.
+
 # Cryptic Quest 4.0.2 — Modular Clock Hotfix
 
 - Fixes modular-clock number buttons collapsing near the center of the dial.

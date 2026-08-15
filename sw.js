@@ -1,17 +1,18 @@
-const CACHE_NAME = 'cryptic-quest-v4-0-2-mod-clock-20260814';
+const CACHE_NAME = 'cryptic-quest-v4-1-0-mission-experience-20260815';
 const APP_SHELL = [
   './',
   './index.html',
-  './index.html?v=4.0.2-hotfix',
-  './styles.css?v=4.0.2-hotfix',
-  './js/app.js?v=4.0.2-hotfix',
+  './index.html?v=4.1.0-mission2',
+  './styles.css?v=4.1.0-mission2',
+  './js/app.js?v=4.1.0-mission2',
   './js/content.js',
   './js/crypto-utils.js',
   './js/question-engine.js',
   './js/learning-engine.js',
   './js/interactive-missions.js',
+  './js/mission-experience.js',
   './content/questions-v3.2.json',
-  './manifest.webmanifest?v=4.0.2-hotfix',
+  './manifest.webmanifest?v=4.1.0-mission2',
   './assets/icons/icon.svg',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',

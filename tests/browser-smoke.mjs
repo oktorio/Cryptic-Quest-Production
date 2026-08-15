@@ -83,9 +83,47 @@ try{
   await nodes.filter({hasText:'1'}).first().click();
   assert.equal((await page.locator('#clockHotfixFixture #clockSelection').textContent())?.trim(),'1','clock node click should register the selected value');
 
+
+  // 4.1 regression: Mission Experience 2.0 must unlock stages progressively.
+  const experienceData=await page.evaluate(async()=>{
+    document.querySelector('#clockHotfixFixture')?.remove();
+    const m=await import('./js/mission-experience.js');
+    const make=(id,seed)=>{
+      const q=m.createMissionExperienceChallenge({id},seed,'explorer');
+      const host=document.createElement('div');host.id=`experience-${id}`;host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);return q;
+    };
+    const modexp=make('numbers-3','CQ40-M-NUMBERS-3-EXP-4A110001');
+    return {modexp:{binary:modexp.data.expectedBinary,result:modexp.data.result}};
+  });
+  const modHost=page.locator('#experience-numbers-3');
+  assert.equal(await modHost.locator('[data-field="result"]').isDisabled(),true,'modexp result should start locked');
+  await modHost.locator('[data-field="binary"]').fill(experienceData.modexp.binary);
+  await modHost.locator('[data-verify="binary"]').click();
+  assert.ok(await modHost.locator('[data-step-status="binary"]').evaluate(el=>el.classList.contains('good')),'binary stage should verify');
+  assert.equal(await modHost.locator('[data-field="result"]').isEnabled(),true,'verified binary should unlock final residue');
+  assert.equal(await modHost.locator('[data-modexp-trace]').isVisible(),true,'verified binary should reveal square-and-multiply trace');
+  await modHost.locator('[data-field="result"]').fill(String(experienceData.modexp.result));
+  await modHost.locator('[data-verify="result"]').click();
+  assert.equal(await modHost.locator('[data-experience-ready]').isVisible(),true,'modexp should become ready after both stages');
+  await modHost.evaluate(el=>el.remove());
+
+  const rsaData=await page.evaluate(async()=>{
+    const m=await import('./js/mission-experience.js');const q=m.createMissionExperienceChallenge({id:'publickey-2'},'CQ40-M-PUBLICKEY-2-EXP-4A110002','explorer');const host=document.createElement('div');host.id='experience-rsa';host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);return {n:q.data.n,phi:q.data.phi,d:q.data.d,c:q.data.c};
+  });
+  const rsaHost=page.locator('#experience-rsa');assert.equal(await rsaHost.locator('[data-field="phi"]').isDisabled(),true,'RSA phi should start locked');
+  for(const key of ['n','phi','d','c']){await rsaHost.locator(`[data-field="${key}"]`).fill(String(rsaData[key]));await rsaHost.locator(`[data-verify="${key}"]`).click();assert.ok(await rsaHost.locator(`[data-step-status="${key}"]`).evaluate(el=>el.classList.contains('good')),`RSA ${key} stage should verify`);}
+  assert.equal(await rsaHost.locator('[data-experience-ready]').isVisible(),true,'RSA should become ready after four verified stages');await rsaHost.evaluate(el=>el.remove());
+
+  const dhData=await page.evaluate(async()=>{
+    const m=await import('./js/mission-experience.js');const q=m.createMissionExperienceChallenge({id:'exchange-2'},'CQ40-M-EXCHANGE-2-EXP-4A110003','explorer');const host=document.createElement('div');host.id='experience-dh';host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);return {A:q.data.A,B:q.data.B,K:q.data.K};
+  });
+  const dhHost=page.locator('#experience-dh');assert.equal(await dhHost.locator('[data-field="K"]').isDisabled(),true,'DH shared secret should start locked');
+  for(const key of ['A','B']){await dhHost.locator(`[data-field="${key}"]`).fill(String(dhData[key]));await dhHost.locator(`[data-verify="${key}"]`).click();}
+  assert.equal(await dhHost.locator('[data-field="K"]').isEnabled(),true,'verified public values should unlock DH shared secret');await dhHost.locator('[data-field="K"]').fill(String(dhData.K));await dhHost.locator('[data-verify="K"]').click();assert.equal(await dhHost.locator('[data-experience-ready]').isVisible(),true,'DH should become ready after K verifies');await dhHost.evaluate(el=>el.remove());
+
   assert.deepEqual(pageErrors,[],`page errors: ${pageErrors.join('\n')}`);
   assert.deepEqual(consoleErrors,[],`console errors: ${consoleErrors.join('\n')}`);
-  console.log('✓ browser smoke: onboarding → Campaign → Training → Sandbox + modular clock geometry/click');
+  console.log('✓ browser smoke: navigation + modular clock + Mission Experience 2.0 staged progression');
 } finally {
   if(browser) await browser.close();
   server.kill('SIGTERM');

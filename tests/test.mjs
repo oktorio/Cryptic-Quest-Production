@@ -11,6 +11,7 @@ import { worlds,missions,skills,academyModules,detectiveCases,cryptoDisasters,ct
 import { questionFingerprint,uniqueQuestions,selectUniqueStaticQuestions,generateUniqueQuestions,createSeededRandom,withSeededMathRandom,normalizeSeedCode } from '../js/question-engine.js';
 import { ensureLearningState,recentQuestionKeySet,recordLearningOutcome,dueMistakes,activeMistakes,skillDependencyInsights,recommendedFoundation,createSessionSeed,parseSessionSeed,recordPracticeRun } from '../js/learning-engine.js';
 import { createInteractiveChallenge,isInteractiveAnswerCorrect,interactiveMissionIds } from '../js/interactive-missions.js';
+import { createMissionExperienceChallenge,isMissionExperienceAnswerCorrect,missionExperienceIds } from '../js/mission-experience.js';
 import vm from 'node:vm';
 
 const dirname=path.dirname(fileURLToPath(import.meta.url));
@@ -222,6 +223,20 @@ test('interactive mission mechanics are deterministic and gradeable',()=>{
   }
 });
 
+test('Mission Experience 2.0 staged challenges are deterministic and gradeable',()=>{
+  const ids=missionExperienceIds();
+  assert.deepEqual(ids.sort(),['exchange-2','numbers-3','publickey-2'].sort());
+  for(const id of ids){
+    const mission=missions.find(m=>m.id===id);assert.ok(mission,id);
+    const q1=createMissionExperienceChallenge(mission,'CQ40-M-MISSION2-EXP-1234ABCD','explorer');
+    const q2=createMissionExperienceChallenge(mission,'CQ40-M-MISSION2-EXP-1234ABCD','explorer');
+    assert.ok(q1);assert.equal(q1.type,'interactive');assert.equal(q1.experience,'2.0');assert.deepEqual(q1.data,q2.data);assert.equal(q1.answer,q2.answer);
+    assert.equal(isMissionExperienceAnswerCorrect(q1,q1.answer),true);assert.equal(isMissionExperienceAnswerCorrect(q1,`${q1.answer}x`),false);
+  }
+  const exp=createMissionExperienceChallenge(missions.find(m=>m.id==='numbers-3'),'CQ40-M-NUMBERS-3-EXP-ABCD1234','explorer');
+  assert.equal(exp.mechanic,'modexp-workbench');assert.equal(exp.data.expectedBinary,exp.data.exponent.toString(2));assert.equal(exp.answer,`${exp.data.expectedBinary}|${exp.data.result}`);assert.ok(exp.data.traceRows.length>0);
+});
+
 test('interactive mission questions preserve their replay data in the learning notebook',()=>{
   const mission=missions.find(m=>m.id==='publickey-2');
   const q=createInteractiveChallenge(mission,'CQ32-M-RSA-EXP-89ABCDEF','explorer');
@@ -233,7 +248,7 @@ test('interactive mission questions preserve their replay data in the learning n
 test('3.2 training UI and external question loader are wired',()=>{
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');const app=fs.readFileSync(path.join(root,'js/app.js'),'utf8');
   for(const id of ['trainingView','startQuickPractice','startExamPractice','startEndlessPractice','startDueReview','mistakeNotebook','skillDependencyPanel','seedReplayInput'])assert.match(html,new RegExp(`id=["']${id}["']`));
-  assert.match(html,/v4\.0/i);assert.match(app,/loadExternalQuestionBank/);assert.match(app,/questions-v3\.2\.json/);assert.match(app,/recentQuestionKeySet/);assert.match(app,/recordLearningOutcome/);
+  assert.match(html,/v4\.1/i);assert.match(app,/loadExternalQuestionBank/);assert.match(app,/questions-v3\.2\.json/);assert.match(app,/recentQuestionKeySet/);assert.match(app,/recordLearningOutcome/);
 });
 
 test('HTML has unique IDs and general-audience branding',()=>{
@@ -253,7 +268,7 @@ test('PWA manifest and app shell assets exist',()=>{
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
   assert.equal(manifest.display,'standalone');assert.ok(manifest.id);assert.ok(manifest.icons.some(i=>i.sizes==='512x512'));
   for(const icon of manifest.icons)assert.ok(fs.existsSync(path.join(root,icon.src)),icon.src);
-  for(const f of ['index.html','styles.css','sw.js','js/app.js','js/content.js','js/crypto-utils.js','js/question-engine.js','js/learning-engine.js','js/interactive-missions.js','content/questions-v3.2.json'])assert.ok(fs.existsSync(path.join(root,f)),f);
+  for(const f of ['index.html','styles.css','sw.js','js/app.js','js/content.js','js/crypto-utils.js','js/question-engine.js','js/learning-engine.js','js/interactive-missions.js','js/mission-experience.js','content/questions-v3.2.json'])assert.ok(fs.existsSync(path.join(root,f)),f);
 });
 
 test('no remote runtime dependencies are present in HTML',()=>{

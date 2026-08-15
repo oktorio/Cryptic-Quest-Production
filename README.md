@@ -126,3 +126,13 @@ Question history, mistakes, review schedules, mastery data, XP, and session code
 ## Educational security note
 
 Cryptic Quest deliberately uses small numbers and historical/insecure constructions for teaching. Toy RSA, classical ciphers, and simplified protocol examples are not production cryptography.
+
+
+## 4.1 Mission Experience 2.0
+
+Mission Experience 2.0 makes selected campaign missions behave like guided cryptography workbenches instead of all-or-nothing quiz questions.
+
+- **RSA Forge 2.0** verifies `n → φ(n) → d → ciphertext` in sequence and explains why each stage exists.
+- **Shared Secret 2.0** verifies Alice and Bob's public values independently before unlocking the shared secret.
+- **Exponent Reactor 2.0** requires a binary exponent decomposition, then reveals a square-and-multiply trace before the final modular residue is submitted.
+- Existing local progress, anti-repeat history, mistake tracking, spaced repetition, session seeds and XP scoring remain in place.
