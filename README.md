@@ -136,3 +136,8 @@ Mission Experience 2.0 makes selected campaign missions behave like guided crypt
 - **Shared Secret 2.0** verifies Alice and Bob's public values independently before unlocking the shared secret.
 - **Exponent Reactor 2.0** requires a binary exponent decomposition, then reveals a square-and-multiply trace before the final modular residue is submitted.
 - Existing local progress, anti-repeat history, mistake tracking, spaced repetition, session seeds and XP scoring remain in place.
+
+
+## 4.2 Mission Experience expansion
+
+Four more campaign operations are hands-on: RSA-CRT decryption/recombination, CBC error propagation, AES ShiftRows matrix manipulation, and reused-XOR keystream recovery. They use staged verification and remain reproducible from CQ40 session codes.

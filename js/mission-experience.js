@@ -1,6 +1,7 @@
 import { squareMultiplySteps } from './crypto-utils.js';
 import { createSeededRandom } from './question-engine.js';
 import { createInteractiveChallenge } from './interactive-missions.js';
+import { advancedMissionExperienceIds,hasAdvancedMissionExperience,createAdvancedMissionExperienceChallenge,renderAdvancedMissionExperienceChallenge,bindAdvancedMissionExperience,getAdvancedMissionExperienceValue,isAdvancedMissionExperienceAnswerCorrect,advancedMissionExperienceProgressMessage } from './mission-experience-advanced.js';
 
 const EXPERIENCE_MISSIONS = new Set(['numbers-3','exchange-2','publickey-2']);
 
@@ -38,11 +39,13 @@ function modexpWorkbench(seed,difficulty='explorer'){
   };
 }
 
-export function hasMissionExperience(missionId){return EXPERIENCE_MISSIONS.has(String(missionId||''));}
-export function missionExperienceIds(){return [...EXPERIENCE_MISSIONS];}
+export function hasMissionExperience(missionId){return EXPERIENCE_MISSIONS.has(String(missionId||''))||hasAdvancedMissionExperience(missionId);}
+export function missionExperienceIds(){return [...EXPERIENCE_MISSIONS,...advancedMissionExperienceIds()];}
 
 export function createMissionExperienceChallenge(mission,seed,difficulty='explorer'){
   if(!mission || !hasMissionExperience(mission.id)) return null;
+  const advanced=createAdvancedMissionExperienceChallenge(mission,seed,difficulty);
+  if(advanced) return advanced;
   if(mission.id==='numbers-3') return modexpWorkbench(seed,difficulty);
   const base=createInteractiveChallenge(mission,seed,difficulty);
   if(!base) return null;
@@ -105,6 +108,7 @@ function modexpHTML(q){
 
 export function renderMissionExperienceChallenge(q){
   if(q?.experience!=='2.0') return '';
+  if(q.experienceFamily==='advanced') return renderAdvancedMissionExperienceChallenge(q);
   if(q.mechanic==='rsa-forge') return rsaHTML(q);
   if(q.mechanic==='dh-exchange') return dhHTML(q);
   if(q.mechanic==='modexp-workbench') return modexpHTML(q);
@@ -204,6 +208,7 @@ function bindModexp(q,root){
 
 export function bindMissionExperience(q,root=document){
   if(q?.experience!=='2.0'||!root)return;
+  if(q.experienceFamily==='advanced'){bindAdvancedMissionExperience(q,root);return;}
   if(q.mechanic==='rsa-forge') bindRsa(q,root);
   if(q.mechanic==='dh-exchange') bindDh(q,root);
   if(q.mechanic==='modexp-workbench') bindModexp(q,root);
@@ -211,6 +216,7 @@ export function bindMissionExperience(q,root=document){
 
 export function getMissionExperienceValue(q,root=document){
   if(q?.experience!=='2.0'||!root)return '';
+  if(q.experienceFamily==='advanced') return getAdvancedMissionExperienceValue(q,root);
   if(q.mechanic==='rsa-forge'){
     const vals=['n','phi','d','c'].map(k=>valueFor(root,k));return vals.every(Boolean)?vals.join('|'):'';
   }
@@ -223,10 +229,11 @@ export function getMissionExperienceValue(q,root=document){
   return '';
 }
 
-export function isMissionExperienceAnswerCorrect(q,value){return q?.experience==='2.0'&&normalize(value)===normalize(q.answer);}
+export function isMissionExperienceAnswerCorrect(q,value){if(q?.experienceFamily==='advanced')return isAdvancedMissionExperienceAnswerCorrect(q,value);return q?.experience==='2.0'&&normalize(value)===normalize(q.answer);}
 
 export function missionExperienceProgressMessage(q,root=document){
   if(q?.experience!=='2.0'||!root)return '';
+  if(q.experienceFamily==='advanced') return advancedMissionExperienceProgressMessage(q,root);
   const order=q.mechanic==='rsa-forge'?['n','phi','d','c']:q.mechanic==='dh-exchange'?['A','B','K']:['binary','result'];
   const labels={n:'modulus n',phi:'Euler totient φ(n)',d:'private exponent d',c:'ciphertext C',A:'Alice public value A',B:'Bob public value B',K:'shared secret K',binary:'binary exponent',result:'final modular residue'};
   const bad=order.find(k=>root.querySelector(`[data-step-status="${k}"]`)?.classList.contains('bad'));
