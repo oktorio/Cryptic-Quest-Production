@@ -121,9 +121,29 @@ try{
   for(const key of ['A','B']){await dhHost.locator(`[data-field="${key}"]`).fill(String(dhData[key]));await dhHost.locator(`[data-verify="${key}"]`).click();}
   assert.equal(await dhHost.locator('[data-field="K"]').isEnabled(),true,'verified public values should unlock DH shared secret');await dhHost.locator('[data-field="K"]').fill(String(dhData.K));await dhHost.locator('[data-verify="K"]').click();assert.equal(await dhHost.locator('[data-experience-ready]').isVisible(),true,'DH should become ready after K verifies');await dhHost.evaluate(el=>el.remove());
 
+
+  // 4.2 regression: advanced Mission Experience mechanics must be operable in a real browser.
+  const advanced=await page.evaluate(async()=>{
+    const m=await import('./js/mission-experience.js');
+    const make=(id,seed,hostId)=>{const q=m.createMissionExperienceChallenge({id},seed,'explorer');const host=document.createElement('div');host.id=hostId;host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);return q;};
+    const rsa=make('publickey-3','CQ40-M-PUBLICKEY-3-EXP-42000001','experience-rsa-crt');
+    return {rsa:{dp:rsa.data.dp,dq:rsa.data.dq,m1:rsa.data.m1,m2:rsa.data.m2,qInv:rsa.data.qInv,h:rsa.data.h,recovered:rsa.data.recovered}};
+  });
+  const crt=page.locator('#experience-rsa-crt');
+  for(const [stage,fields] of [['crtExp',['dp','dq']],['crtResidues',['m1','m2']],['crtBridge',['qInv','h']],['crtMessage',['recovered']]]){for(const f of fields)await crt.locator(`[data-field="${f}"]`).fill(String(advanced.rsa[f]));await crt.locator(`[data-verify-advanced="${stage}"]`).click();assert.ok(await crt.locator(`[data-step-status="${stage}"]`).evaluate(el=>el.classList.contains('good')),`RSA-CRT ${stage} should verify`);}assert.equal(await crt.locator('[data-experience-ready]').isVisible(),true);await crt.evaluate(el=>el.remove());
+
+  const cbcData=await page.evaluate(async()=>{const m=await import('./js/mission-experience.js');const q=m.createMissionExperienceChallenge({id:'fortress-2'},'CQ40-M-FORTRESS-2-EXP-42000002','explorer');const host=document.createElement('div');host.id='experience-cbc';host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);return {affected:q.data.affected,current:q.data.currentImpact,next:q.data.nextImpact};});
+  const cbc=page.locator('#experience-cbc');for(const n of cbcData.affected)await cbc.locator(`[data-cbc-block="${n}"]`).click();await cbc.locator('[data-verify-advanced="cbcBlocks"]').click();assert.equal(await cbc.locator('[data-field="currentImpact"]').isEnabled(),true);await cbc.locator('[data-field="currentImpact"]').selectOption(cbcData.current);await cbc.locator('[data-field="nextImpact"]').selectOption(cbcData.next);await cbc.locator('[data-verify-advanced="cbcImpact"]').click();assert.equal(await cbc.locator('[data-experience-ready]').isVisible(),true);await cbc.evaluate(el=>el.remove());
+
+  await page.evaluate(async()=>{const m=await import('./js/mission-experience.js');const q=m.createMissionExperienceChallenge({id:'fortress-1'},'CQ40-M-FORTRESS-1-EXP-42000003','explorer');const host=document.createElement('div');host.id='experience-aes-shift';host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);});
+  const aes=page.locator('#experience-aes-shift');for(let row=1;row<4;row++)for(let i=0;i<row;i++)await aes.locator(`[data-row="${row}"][data-dir="left"]`).click();await aes.locator('[data-verify-advanced="matrix"]').click();assert.equal(await aes.locator('[data-experience-ready]').isVisible(),true);await aes.evaluate(el=>el.remove());
+
+  const xorData=await page.evaluate(async()=>{const m=await import('./js/mission-experience.js');const q=m.createMissionExperienceChallenge({id:'machines-3'},'CQ40-M-MACHINES-3-EXP-42000004','explorer');const host=document.createElement('div');host.id='experience-xor';host.style.position='fixed';host.style.inset='0';host.style.zIndex='9999';host.style.overflow='auto';host.style.background='#090312';host.innerHTML=m.renderMissionExperienceChallenge(q);document.body.append(host);m.bindMissionExperience(q,host);return {key:q.data.keyHex,p2:q.data.p2};});
+  const xor=page.locator('#experience-xor');await xor.locator('[data-field="keyHex"]').fill(xorData.key);await xor.locator('[data-verify-advanced="xorKey"]').click();assert.equal(await xor.locator('[data-field="p2"]').isEnabled(),true);await xor.locator('[data-field="p2"]').fill(xorData.p2);await xor.locator('[data-verify-advanced="xorPlain"]').click();assert.equal(await xor.locator('[data-experience-ready]').isVisible(),true);await xor.evaluate(el=>el.remove());
+
   assert.deepEqual(pageErrors,[],`page errors: ${pageErrors.join('\n')}`);
   assert.deepEqual(consoleErrors,[],`console errors: ${consoleErrors.join('\n')}`);
-  console.log('✓ browser smoke: navigation + modular clock + Mission Experience 2.0 staged progression');
+  console.log('✓ browser smoke: navigation + modular clock + Mission Experience 2.0 + 4.2 advanced mechanics');
 } finally {
   if(browser) await browser.close();
   server.kill('SIGTERM');

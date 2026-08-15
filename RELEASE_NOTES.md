@@ -1,3 +1,11 @@
+# Cryptic Quest 4.2.0 — Advanced Mission Experience
+
+- RSA-CRT staged private-key decryption and CRT recombination in The RSA Vault.
+- CBC single-bit ciphertext-error propagation tracing in Mode Control.
+- Direct AES ShiftRows 4×4 state manipulation in Inside AES.
+- Known-plaintext reused-keystream recovery in The Reused Pad.
+- Deterministic generation, Node regression coverage, Chromium interaction coverage, and refreshed PWA cache metadata.
+
 # Cryptic Quest 4.1 — Mission Experience 2.0
 
 - Adds a dedicated Mission Experience layer for deeper staged campaign mechanics.

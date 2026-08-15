@@ -225,7 +225,7 @@ test('interactive mission mechanics are deterministic and gradeable',()=>{
 
 test('Mission Experience 2.0 staged challenges are deterministic and gradeable',()=>{
   const ids=missionExperienceIds();
-  assert.deepEqual(ids.sort(),['exchange-2','numbers-3','publickey-2'].sort());
+  assert.deepEqual(ids.sort(),['exchange-2','numbers-3','publickey-2','fortress-1','fortress-2','machines-3','publickey-3'].sort());
   for(const id of ids){
     const mission=missions.find(m=>m.id===id);assert.ok(mission,id);
     const q1=createMissionExperienceChallenge(mission,'CQ40-M-MISSION2-EXP-1234ABCD','explorer');
@@ -235,6 +235,18 @@ test('Mission Experience 2.0 staged challenges are deterministic and gradeable',
   }
   const exp=createMissionExperienceChallenge(missions.find(m=>m.id==='numbers-3'),'CQ40-M-NUMBERS-3-EXP-ABCD1234','explorer');
   assert.equal(exp.mechanic,'modexp-workbench');assert.equal(exp.data.expectedBinary,exp.data.exponent.toString(2));assert.equal(exp.answer,`${exp.data.expectedBinary}|${exp.data.result}`);assert.ok(exp.data.traceRows.length>0);
+});
+
+test('4.2 advanced Mission Experience mechanics preserve cryptographic invariants',()=>{
+  const rsa=createMissionExperienceChallenge(missions.find(m=>m.id==='publickey-3'),'CQ40-M-PUBLICKEY-3-EXP-42000001','explorer');
+  assert.equal(rsa.mechanic,'rsa-crt');assert.equal(rsa.data.recovered,rsa.data.message);assert.equal(Number(modPow(rsa.data.ciphertext,rsa.data.dp,rsa.data.p)),rsa.data.m1);assert.equal(Number(modPow(rsa.data.ciphertext,rsa.data.dq,rsa.data.q)),rsa.data.m2);
+  const cbc=createMissionExperienceChallenge(missions.find(m=>m.id==='fortress-2'),'CQ40-M-FORTRESS-2-EXP-42000002','explorer');
+  assert.equal(cbc.mechanic,'cbc-propagation');assert.deepEqual(cbc.data.affected,[cbc.data.corrupted,cbc.data.corrupted+1]);
+  const aes=createMissionExperienceChallenge(missions.find(m=>m.id==='fortress-1'),'CQ40-M-FORTRESS-1-EXP-42000003','explorer');
+  assert.equal(aes.mechanic,'aes-shiftrows');aes.data.expectedRows.forEach((row,r)=>assert.deepEqual(row,aes.data.startRows[r].slice(r).concat(aes.data.startRows[r].slice(0,r))));
+  const xor=createMissionExperienceChallenge(missions.find(m=>m.id==='machines-3'),'CQ40-M-MACHINES-3-EXP-42000004','explorer');
+  assert.equal(xor.mechanic,'xor-reuse');assert.equal(xorHex(textToHex(xor.data.p1),xor.data.c1),xor.data.keyHex);assert.equal(xorHex(xor.data.c2,xor.data.keyHex),textToHex(xor.data.p2));
+  for(const q of [rsa,cbc,aes,xor]){assert.equal(isMissionExperienceAnswerCorrect(q,q.answer),true);assert.equal(isMissionExperienceAnswerCorrect(q,`${q.answer}x`),false);}
 });
 
 test('interactive mission questions preserve their replay data in the learning notebook',()=>{
@@ -248,7 +260,7 @@ test('interactive mission questions preserve their replay data in the learning n
 test('3.2 training UI and external question loader are wired',()=>{
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');const app=fs.readFileSync(path.join(root,'js/app.js'),'utf8');
   for(const id of ['trainingView','startQuickPractice','startExamPractice','startEndlessPractice','startDueReview','mistakeNotebook','skillDependencyPanel','seedReplayInput'])assert.match(html,new RegExp(`id=["']${id}["']`));
-  assert.match(html,/v4\.1/i);assert.match(app,/loadExternalQuestionBank/);assert.match(app,/questions-v3\.2\.json/);assert.match(app,/recentQuestionKeySet/);assert.match(app,/recordLearningOutcome/);
+  assert.match(html,/v4\.2/i);assert.match(app,/loadExternalQuestionBank/);assert.match(app,/questions-v3\.2\.json/);assert.match(app,/recentQuestionKeySet/);assert.match(app,/recordLearningOutcome/);
 });
 
 test('HTML has unique IDs and general-audience branding',()=>{
@@ -268,7 +280,7 @@ test('PWA manifest and app shell assets exist',()=>{
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
   assert.equal(manifest.display,'standalone');assert.ok(manifest.id);assert.ok(manifest.icons.some(i=>i.sizes==='512x512'));
   for(const icon of manifest.icons)assert.ok(fs.existsSync(path.join(root,icon.src)),icon.src);
-  for(const f of ['index.html','styles.css','sw.js','js/app.js','js/content.js','js/crypto-utils.js','js/question-engine.js','js/learning-engine.js','js/interactive-missions.js','js/mission-experience.js','content/questions-v3.2.json'])assert.ok(fs.existsSync(path.join(root,f)),f);
+  for(const f of ['index.html','styles.css','sw.js','js/app.js','js/content.js','js/crypto-utils.js','js/question-engine.js','js/learning-engine.js','js/interactive-missions.js','js/mission-experience.js','js/mission-experience-advanced.js','content/questions-v3.2.json'])assert.ok(fs.existsSync(path.join(root,f)),f);
 });
 
 test('no remote runtime dependencies are present in HTML',()=>{
